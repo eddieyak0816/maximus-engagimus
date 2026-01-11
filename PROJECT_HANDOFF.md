@@ -55,8 +55,8 @@ This document provides everything your team needs to understand, set up, and com
 | SETUP.md | Installation guide |
 | PROJECT_HANDOFF.md | Project handoff documentation |
 | maximus-engagimus-spec.md | Project specifications |
-| AuthContext.jsx | Duplicate auth context (should be removed) |
-| supabase.js | Duplicate supabase client (should be removed) |
+| AuthContext.jsx | Duplicate root copy removed; canonical file at `src/contexts/AuthContext.jsx` |
+| supabase.js | Duplicate root copy removed; canonical file at `src/lib/supabase.js` |
 
 #### Source Code - Core
 | File | Purpose |

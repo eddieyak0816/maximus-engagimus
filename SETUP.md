@@ -19,6 +19,7 @@ cd maximus-engagimus
 npm install
 ```
 
+> ✅ Completed locally: dependencies installed (`npm install`).
 ## 2. Supabase Setup
 
 ### Create a Project
@@ -51,6 +52,7 @@ cp .env.example .env
 
 Edit `.env` with your values:
 
+> ✅ Completed locally: `.env` created and Supabase vars populated (kept private).
 ```env
 # Supabase (required)
 VITE_SUPABASE_URL=https://your-project.supabase.co
@@ -94,6 +96,8 @@ npm run dev
 ```
 
 Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+> ✅ Completed locally: Dev server started and app rendered in browser (Vite configured for `src` root and host binding).
 
 ## 5. Create Your Account
 

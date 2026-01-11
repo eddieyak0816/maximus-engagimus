@@ -205,17 +205,19 @@ All tables use RLS policies to ensure:
 
 ### For Development
 
-- [ ] Clone repository
-- [ ] Run `npm install`
+- [x] Clone repository — ✅ (local repo exists)
+- [x] Run `npm install` — ✅ Completed locally
 - [ ] Create Supabase project at supabase.com
 - [ ] Run `supabase/schema.sql` in Supabase SQL Editor
-- [ ] Copy `.env.example` to `.env`
-- [ ] Add Supabase URL and anon key to `.env`
+- [x] Copy `.env.example` to `.env` — ✅ Completed
+- [x] Add Supabase URL and anon key to `.env` — ✅ Completed
 - [ ] Enable Email auth in Supabase (Authentication > Providers)
 - [ ] Set Site URL to `http://localhost:5173` (Authentication > URL Configuration)
-- [ ] Run `npm run dev`
+- [x] Run `npm run dev` — ✅ Dev server running locally
 - [ ] Create account via Sign Up form
 - [ ] Configure at least one AI provider in Settings
+
+> Note: Local dev verified: dependencies installed, `.env` configured, dev server is running, and Supabase client tested. (Credentials remain private.)
 
 ### For Production
 

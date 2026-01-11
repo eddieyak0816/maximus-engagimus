@@ -40,6 +40,7 @@ cp .env.example .env
 npm run dev
 ```
 
+> ✅ Local dev verified: dependencies installed, `.env` configured, and dev server runs (app renders).
 ## 📁 Project Structure
 
 ```

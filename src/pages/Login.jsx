@@ -15,8 +15,8 @@ export default function Login() {
   const [mode, setMode] = useState('signin');
   
   // Form state
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('test@test.com');
+  const [password, setPassword] = useState('test1234');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [fullName, setFullName] = useState('');
   const [organizationName, setOrganizationName] = useState('');

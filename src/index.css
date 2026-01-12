@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* Global styles for Maximus Engagimus */
 :root {
   --bg: #ffffff;
@@ -19,3 +23,7 @@ a { color: inherit; }
 
 /* Utility */
 .container { max-width: 1100px; margin: 0 auto; padding: 1rem; }
+
+/* Spinner fallback for environments where Tailwind utilities aren't loaded */
+@keyframes spin { to { transform: rotate(360deg); } }
+.spinner-fallback { animation: spin 1s linear infinite; }

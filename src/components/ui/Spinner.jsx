@@ -36,7 +36,7 @@ const Spinner = forwardRef(function Spinner(
   return (
     <svg
       ref={ref}
-      className={`animate-spin ${sizes[size]} ${colors[color]} ${className}`}
+      className={`animate-spin spinner-fallback ${sizes[size]} ${colors[color]} ${className}`}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"

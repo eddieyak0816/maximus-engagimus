@@ -120,16 +120,28 @@ export async function updatePassword(newPassword) {
  * Get current user's profile with organization
  */
 export async function getUserProfile() {
-  const { data, error } = await supabase
-    .from('users')
-    .select(`
-      *,
-      organization:organizations(*)
-    `)
-    .single();
-  
-  if (error) throw error;
-  return data;
+  console.log('[Supabase] getUserProfile: supabaseUrl=', supabaseUrl ? supabaseUrl.replace(/:\/\/([^:]+):.*@/, '://REDACTED@') : supabaseUrl);
+  console.log('[Supabase] getUserProfile: starting query');
+  try {
+    const { data, error } = await supabase
+      .from('users')
+      .select(`
+        *,
+        organization:organizations(*)
+      `)
+      .single();
+
+    if (error) {
+      console.error('[Supabase] getUserProfile: query error', error);
+      throw error;
+    }
+
+    console.log('[Supabase] getUserProfile: success');
+    return data;
+  } catch (err) {
+    console.error('[Supabase] getUserProfile: caught error', err);
+    throw err;
+  }
 }
 
 /**

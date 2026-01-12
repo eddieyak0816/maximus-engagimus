@@ -115,10 +115,13 @@ a { color: inherit; }
 /* Stronger fallback selectors that match variations in generated classes */
 .dark [class*="quick-card"] {
   background-image: none !important;
-  /* Use the page background in dark mode so quick-cards match the dashboard */
-  background-color: var(--bg) !important;
+  /* Use the card surface in dark mode so quick-cards match the stat boxes */
+  background-color: var(--card) !important;
   background-blend-mode: normal !important;
-  border-color: rgba(255,255,255,0.02) !important;
+  border-color: rgba(255,255,255,0.04) !important;
+  /* Force a visible 1px border like the stat boxes */
+  border: 1px solid rgba(255,255,255,0.04) !important;
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.01) inset !important;
 }
 .dark [class*="quick-card"] h3,
 .dark [class*="quick-card"] .font-semibold { color: var(--text) !important; }

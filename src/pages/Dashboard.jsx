@@ -109,7 +109,7 @@ export default function Dashboard() {
           <Card
             padding="sm"
             hover
-            className="h-full bg-primary-50 border-primary-200 dark:bg-[var(--bg)] dark:border-transparent quick-card"
+            className="h-full bg-primary-50 border-primary-200 dark:bg-[var(--card)] dark:border-gray-700 quick-card"
           >
             <div className="flex items-center gap-4">
               <div className="p-3 bg-primary-500 rounded-lg">
@@ -127,7 +127,7 @@ export default function Dashboard() {
           <Card
             padding="sm"
             hover
-            className="h-full bg-success-50 border-success-200 dark:bg-[var(--bg)] dark:border-transparent quick-card"
+            className="h-full bg-success-50 border-success-200 dark:bg-[var(--card)] dark:border-gray-700 quick-card"
           >
             <div className="flex items-center gap-4">
               <div className="p-3 bg-success-500 rounded-lg">
@@ -145,7 +145,7 @@ export default function Dashboard() {
           <Card
             padding="sm"
             hover
-            className="h-full bg-warning-50 border-warning-200 dark:bg-[var(--bg)] dark:border-transparent quick-card"
+            className="h-full bg-warning-50 border-warning-200 dark:bg-[var(--card)] dark:border-gray-700 quick-card"
           >
             <div className="flex items-center gap-4">
               <div className="p-3 bg-warning-500 rounded-lg">

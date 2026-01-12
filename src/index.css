@@ -105,7 +105,8 @@ a { color: inherit; }
   /* remove any background image (gradient) and use our card token */
   background-image: none !important;
   background-color: var(--card) !important;
-  border-color: rgba(255,255,255,0.04) !important;
+  border-color: rgb(73, 80, 87) !important;
+  border: 1px solid rgb(73, 80, 87) !important;
 }
 
 /* Ensure quick-card title and subtitle are readable in dark */
@@ -118,10 +119,8 @@ a { color: inherit; }
   /* Use the card surface in dark mode so quick-cards match the stat boxes */
   background-color: var(--card) !important;
   background-blend-mode: normal !important;
-  border-color: rgba(255,255,255,0.04) !important;
-  /* Force a visible 1px border like the stat boxes */
-  border: 1px solid rgba(255,255,255,0.04) !important;
-  box-shadow: 0 0 0 1px rgba(255,255,255,0.01) inset !important;
+  border-color: rgb(73, 80, 87) !important;
+  border: 1px solid rgb(73, 80, 87) !important;
 }
 .dark [class*="quick-card"] h3,
 .dark [class*="quick-card"] .font-semibold { color: var(--text) !important; }

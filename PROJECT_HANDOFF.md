@@ -217,6 +217,28 @@ All tables use RLS policies to ensure:
 - [ ] Create account via Sign Up form
 - [ ] Configure at least one AI provider in Settings
 
+---
+
+## CI & QA
+
+- We run an automated accessibility color-contrast audit (axe) and a Playwright visual QA workflow on pushes and pull requests to `main` via GitHub Actions (`.github/workflows/a11y-and-visual-qa.yml`). The a11y job fails the workflow if contrast violations are found to prevent regressions.
+
+- Artifacts (screenshots and the axe JSON report) are uploaded to the workflow run so reviewers can inspect visual diffs and accessibility findings.
+
+- Local commands:
+
+```bash
+# Capture screenshots (mobile/tablet/desktop)
+npm run visual:qa
+
+# Run the color-contrast audit (writes visual-screenshots/axe-color-contrast.json)
+npm run a11y:audit
+```
+
+---
+
+## Known Considerations
+
 > Note: Local dev verified: dependencies installed, `.env` configured, dev server is running, and Supabase client tested. (Credentials remain private.)
 
 ### For Production

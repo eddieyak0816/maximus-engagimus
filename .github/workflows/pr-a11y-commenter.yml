@@ -1,0 +1,74 @@
+name: PR — A11y & Visual QA Commenter
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  pr-a11y:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Run a11y audit
+        id: a11y
+        run: npm run a11y:audit
+        continue-on-error: true
+
+      - name: Run visual QA
+        id: visual
+        run: npm run visual:qa
+        continue-on-error: true
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-screenshots
+          path: visual-screenshots/
+
+      - name: Build summary
+        id: summary
+        run: |
+          node -e "
+          const fs = require('fs');
+          const path = 'visual-screenshots/axe-color-contrast.json';
+          let violations = 0;
+          try {
+            if (fs.existsSync(path)) {
+              const data = JSON.parse(fs.readFileSync(path, 'utf8'));
+              violations = (data.violations && data.violations.length) || 0;
+            }
+          } catch (e) {
+            console.error('Failed to read audit json:', e);
+          }
+          console.log('violations=' + violations);
+          require('fs').writeFileSync(process.env.GITHUB_OUTPUT, `violations=${violations}\n`);
+          "
+
+      - name: Comment on PR
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            **A11y & Visual QA Summary** 🔎
+
+            - **A11y contrast violations**: **${{ steps.summary.outputs.violations }}**
+            - **Artifacts**: `visual-screenshots` (download via Actions > this workflow run > Artifacts)
+
+            _If violations are > 0, please review the `visual-screenshots/axe-color-contrast.json` artifact and update styles before merging._
+
+      - name: Fail if violations found
+        if: steps.summary.outputs.violations != '0'
+        run: |
+          echo "A11y contrast violations found: ${{ steps.summary.outputs.violations }}"
+          exit 1

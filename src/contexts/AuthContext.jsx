@@ -61,6 +61,7 @@ export function AuthProvider({ children }) {
             setOrganization(null);
           }
           setLoading(false);
+          console.log('[Auth] initializeAuth: loading set to false, user:', !!session?.user);
         }
       } catch (err) {
         console.error('Auth initialization error:', err);

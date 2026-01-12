@@ -25,15 +25,13 @@ export function AuthProvider({ children }) {
    * Fetch user profile and organization data
    */
   const fetchProfile = useCallback(async () => {
-    console.log('[Auth] fetchProfile: start');
     try {
       const data = await getUserProfile();
       setProfile(data);
       setOrganization(data?.organization || null);
       setError(null);
-      console.log('[Auth] fetchProfile: success');
     } catch (err) {
-      console.error('[Auth] Error fetching profile:', err);
+      console.error('Error fetching profile:', err);
       setError(err.message);
       setProfile(null);
       setOrganization(null);
@@ -47,18 +45,15 @@ export function AuthProvider({ children }) {
     let mounted = true;
 
     async function initializeAuth() {
-      console.log('[Auth] initializeAuth: start');
       try {
         // Get initial session
         const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-        console.log('[Auth] getSession -> user:', !!session?.user);
         
         if (sessionError) throw sessionError;
 
         if (mounted) {
           if (session?.user) {
             setUser(session.user);
-            console.log('[Auth] user present, fetching profile...');
             await fetchProfile();
           } else {
             setUser(null);
@@ -66,10 +61,9 @@ export function AuthProvider({ children }) {
             setOrganization(null);
           }
           setLoading(false);
-          console.log('[Auth] initializeAuth: done');
         }
       } catch (err) {
-        console.error('[Auth] Auth initialization error:', err);
+        console.error('Auth initialization error:', err);
         if (mounted) {
           setError(err.message);
           setLoading(false);

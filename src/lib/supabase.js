@@ -122,8 +122,13 @@ export async function updatePassword(newPassword) {
 export async function getUserProfile() {
   console.log('[Supabase] getUserProfile: supabaseUrl=', supabaseUrl ? supabaseUrl.replace(/:\/\/([^:]+):.*@/, '://REDACTED@') : supabaseUrl);
   console.log('[Supabase] getUserProfile: starting query');
+
+  // Small helper to detect long-running calls
+  const timeout = (ms) => new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), ms));
+
   try {
-    const { data, error } = await supabase
+    // Run the supabase query with a 6s timeout to detect hangs
+    const queryPromise = supabase
       .from('users')
       .select(`
         *,
@@ -131,15 +136,40 @@ export async function getUserProfile() {
       `)
       .single();
 
+    const { data, error } = await Promise.race([queryPromise, timeout(6000)]);
+
     if (error) {
       console.error('[Supabase] getUserProfile: query error', error);
       throw error;
     }
 
     console.log('[Supabase] getUserProfile: success');
+
+    // Also do a direct fetch to the REST endpoint to confirm network/connectivity
+    try {
+      const testUrl = `${supabaseUrl.replace(/\/$/, '')}/rest/v1/users?select=*&limit=1`;
+      console.log('[Supabase] getUserProfile: test fetch to', testUrl);
+      const res = await fetch(testUrl, {
+        method: 'GET',
+        headers: {
+          apikey: supabaseAnonKey,
+          Authorization: `Bearer ${localStorage.getItem(Object.keys(localStorage).find(k => k.startsWith('sb:')) ? Object.keys(localStorage).find(k => k.startsWith('sb:')) : '') ? JSON.parse(localStorage.getItem(Object.keys(localStorage).find(k => k.startsWith('sb:')))).access_token : 'REDACTED'}`,
+        },
+      });
+      console.log('[Supabase] getUserProfile: test fetch status', res.status);
+      const txt = await res.text();
+      console.log('[Supabase] getUserProfile: test fetch body (first 200 chars):', txt.slice(0,200));
+    } catch (fetchErr) {
+      console.error('[Supabase] getUserProfile: test fetch error', fetchErr);
+    }
+
     return data;
   } catch (err) {
-    console.error('[Supabase] getUserProfile: caught error', err);
+    if (err.message === 'timeout') {
+      console.error('[Supabase] getUserProfile: request timed out (6s)');
+    } else {
+      console.error('[Supabase] getUserProfile: caught error', err);
+    }
     throw err;
   }
 }

@@ -149,7 +149,7 @@ export default function AIProviderCard({
                   onClick={() => setMenuOpen(false)}
                 />
                 {/* Menu */}
-                <div className="absolute right-0 mt-1 w-44 bg-white rounded-md shadow-lg border border-gray-200 py-1 z-20">
+                <div className="absolute right-0 mt-1 w-44 bg-white dark:bg-[var(--card)] rounded-md shadow-lg border border-gray-200 dark:border-gray-700 py-1 z-20">
                   <button
                     onClick={() => {
                       setMenuOpen(false);

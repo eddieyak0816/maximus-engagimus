@@ -124,7 +124,7 @@ export default function Modal({
                   </h2>
                 )}
                 {description && (
-                  <p className="mt-1 text-sm text-gray-500">{description}</p>
+                  <p className="mt-1 text-sm text-gray-500 dark:text-gray-300">{description}</p>
                 )}
               </div>
               {showClose && (
@@ -201,7 +201,7 @@ Modal.Confirm = function ConfirmModal({
         </>
       }
     >
-      <p className="text-gray-600">{message}</p>
+      <p className="text-gray-600 dark:text-gray-300">{message}</p>
     </Modal>
   );
 };

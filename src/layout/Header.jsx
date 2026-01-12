@@ -22,7 +22,7 @@ export default function Header({ onMenuClick, pageTitle }) {
 
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const menuRef = useRef(null);
-  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'light');
+  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark');
 
   useEffect(() => {
     function handleClickOutside(event) {

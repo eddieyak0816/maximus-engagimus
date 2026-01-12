@@ -9,6 +9,18 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import { AuthProvider } from './contexts/AuthContext';
+
+// Ensure theme is applied before rendering to avoid flash of light theme
+const savedTheme = localStorage.getItem('theme');
+if (!savedTheme) {
+  localStorage.setItem('theme', 'dark');
+  document.documentElement.classList.add('dark');
+} else if (savedTheme === 'dark') {
+  document.documentElement.classList.add('dark');
+} else {
+  document.documentElement.classList.remove('dark');
+}
+
 import './index.css';
 
 // Get the root element

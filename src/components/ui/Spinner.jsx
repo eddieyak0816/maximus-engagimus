@@ -81,7 +81,7 @@ Spinner.FullPage = function FullPageSpinner({ message = 'Loading...' }) {
         <Spinner size="xl" aria-hidden="true" />
 
         {message && (
-          <p className="mt-4 text-gray-600 font-medium">{message}</p>
+          <p className="mt-4 text-gray-600 dark:text-gray-300 font-medium">{message}</p>
         )}
       </div>
     </div>
@@ -110,7 +110,7 @@ Spinner.Overlay = function OverlaySpinner({ message }) {
       <div className="text-center">
         <Spinner size="lg" />
         {message && (
-          <p className="mt-2 text-sm text-gray-600">{message}</p>
+          <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">{message}</p>
         )}
       </div>
     </div>

@@ -119,7 +119,7 @@ export default function History() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Generation History</h1>
-          <p className="text-gray-600 mt-1">
+          <p className="text-gray-600 dark:text-gray-300 mt-1">
             View and search your past comment generations
           </p>
         </div>
@@ -169,7 +169,7 @@ export default function History() {
       </Card>
 
       {/* Results count */}
-      <div className="flex items-center justify-between text-sm text-gray-500">
+      <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-300">
         <span>
           {filteredHistory.length} generation{filteredHistory.length !== 1 ? 's' : ''} found
         </span>
@@ -190,7 +190,7 @@ export default function History() {
         <Card className="text-center py-12">
           <Clock className="h-12 w-12 text-gray-300 mx-auto mb-4" />
           <h3 className="font-medium text-gray-900 mb-2">No History Yet</h3>
-          <p className="text-gray-500 mb-4">
+          <p className="text-gray-500 dark:text-gray-300 mb-4">
             {hasFilters
               ? 'No generations match your filters.'
               : 'Your comment generations will appear here.'}
@@ -214,9 +214,9 @@ export default function History() {
             <div key={date}>
               {/* Date header */}
               <div className="flex items-center gap-3 mb-4">
-                <Calendar className="h-5 w-5 text-gray-400" />
+                <Calendar className="h-5 w-5 text-gray-400 dark:text-gray-400" />
                 <h2 className="font-semibold text-gray-900">{date}</h2>
-                <span className="text-sm text-gray-500">
+                <span className="text-sm text-gray-500 dark:text-gray-300">
                   ({items.length} generation{items.length !== 1 ? 's' : ''})
                 </span>
               </div>
@@ -289,12 +289,12 @@ function HistoryItem({ item }) {
             </div>
 
             {/* Source content preview */}
-            <p className="text-sm text-gray-700 line-clamp-2">
+            <p className="text-sm text-gray-700 dark:text-gray-300 line-clamp-2">
               {truncate(item.source_content, 200)}
             </p>
 
             {/* Meta */}
-            <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
+            <div className="flex items-center gap-4 mt-2 text-xs text-gray-500 dark:text-gray-300">
               <span>{formatRelativeTime(item.created_at)}</span>
               <span>•</span>
               <span>{totalOptions} option{totalOptions !== 1 ? 's' : ''}</span>
@@ -316,9 +316,9 @@ function HistoryItem({ item }) {
           {/* Expand icon */}
           <div className="ml-4">
             {expanded ? (
-              <ChevronUp className="h-5 w-5 text-gray-400" />
+              <ChevronUp className="h-5 w-5 text-gray-400 dark:text-gray-400" />
             ) : (
-              <ChevronDown className="h-5 w-5 text-gray-400" />
+              <ChevronDown className="h-5 w-5 text-gray-400 dark:text-gray-400" />
             )}
           </div>
         </div>
@@ -329,17 +329,17 @@ function HistoryItem({ item }) {
         <div className="border-t border-gray-100">
           {/* Source content full */}
           <div className="p-4 bg-gray-50 dark:bg-[var(--card-soft)]">
-            <h4 className="text-xs font-medium text-gray-500 uppercase mb-2">
+            <h4 className="text-xs font-medium text-gray-500 dark:text-gray-300 uppercase mb-2">
               Source Content
             </h4>
-            <p className="text-sm text-gray-700 whitespace-pre-wrap">
+            <p className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
               {item.source_content}
             </p>
           </div>
 
           {/* Generated options */}
           <div className="p-4">
-            <h4 className="text-xs font-medium text-gray-500 uppercase mb-3">
+            <h4 className="text-xs font-medium text-gray-500 dark:text-gray-300 uppercase mb-3">
               Generated Comments
             </h4>
             <div className="space-y-3">
@@ -354,7 +354,7 @@ function HistoryItem({ item }) {
           </div>
 
           {/* Actions */}
-          <div className="px-4 py-3 bg-gray-50 dark:bg-[var(--bg)] border-t border-gray-100 dark:border-gray-700 flex justify-end gap-2">
+          <div className="px-4 py-3 bg-gray-50 dark:bg-[var(--card-soft)] border-t border-gray-100 dark:border-gray-700 flex justify-end gap-2">
             <Link
               to={`/generator?prefill=${item.id}`}
               className="text-sm text-primary-600 hover:text-primary-700"

@@ -139,7 +139,7 @@ const Dropdown = forwardRef(function Dropdown(
         disabled={disabled}
         className={`
           relative w-full px-3 py-2 text-left
-          bg-white border rounded-md shadow-sm
+          bg-white dark:bg-[var(--card-soft)] border rounded-md shadow-sm dark:border-gray-700
           focus:outline-none focus:ring-2 focus:ring-offset-0
           disabled:bg-gray-100 disabled:cursor-not-allowed
           transition-colors duration-200
@@ -180,7 +180,7 @@ const Dropdown = forwardRef(function Dropdown(
 
       {/* Dropdown menu */}
       {isOpen && (
-        <div className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg">
+        <div className="absolute z-50 w-full mt-1 bg-white dark:bg-[var(--card)] border border-gray-200 dark:border-gray-700 rounded-md shadow-lg">
           {/* Search input */}
           {searchable && (
             <div className="p-2 border-b border-gray-200">

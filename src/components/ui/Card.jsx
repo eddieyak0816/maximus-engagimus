@@ -33,9 +33,9 @@ const Card = forwardRef(function Card(
       ref={ref}
       onClick={onClick}
       className={`
-        bg-white rounded-lg border border-gray-200 shadow-sm
+        bg-white dark:bg-[var(--card)] rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm
         ${paddingClasses[padding]}
-        ${hover ? 'hover:shadow-lg hover:-translate-y-1 transform-gpu transition-all duration-200 hover:border-gray-300' : ''}
+        ${hover ? 'hover:shadow-lg hover:-translate-y-1 transform-gpu transition-all duration-200 hover:border-gray-300 dark:hover:border-gray-600' : ''}
         ${isClickable ? 'cursor-pointer' : ''}
         ${className}
       `}
@@ -77,7 +77,7 @@ function CardHeader({ children, className = '', actions }) {
 // Card Title
 function CardTitle({ children, className = '' }) {
   return (
-    <h3 className={`text-lg font-semibold text-gray-900 ${className}`}>
+    <h3 className={`text-lg font-semibold text-gray-900 dark:text-gray-100 ${className}`}>
       {children}
     </h3>
   );
@@ -86,7 +86,7 @@ function CardTitle({ children, className = '' }) {
 // Card Description
 function CardDescription({ children, className = '' }) {
   return (
-    <p className={`text-sm text-gray-500 mt-1 ${className}`}>
+    <p className={`text-sm text-gray-500 dark:text-gray-300 mt-1 ${className}`}>
       {children}
     </p>
   );

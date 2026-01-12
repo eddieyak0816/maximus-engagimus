@@ -83,6 +83,22 @@ export function AuthProvider({ children }) {
             setUser(null);
             setProfile(null);
             setOrganization(null);
+
+            // Development-only: allow a mocked authenticated user when
+            // localStorage flag `dev:mockAuth` is set. This helps preview
+            // authenticated pages (dashboard, settings) without real auth.
+            if (process.env.NODE_ENV !== 'production' && typeof window !== 'undefined' && localStorage.getItem('dev:mockAuth') === 'true') {
+              const mockUser = { id: 'dev-user', email: 'dev@local' };
+              const mockProfile = {
+                id: 'dev-user',
+                full_name: 'Developer',
+                role: 'owner',
+                organization: { id: 'org-dev', name: 'Dev Org', slug: 'dev-org' },
+              };
+              setUser(mockUser);
+              setProfile(mockProfile);
+              setOrganization(mockProfile.organization);
+            }
           }
           setLoading(false);
         }

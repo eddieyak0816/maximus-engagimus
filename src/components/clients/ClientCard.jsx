@@ -45,7 +45,7 @@ export default function ClientCard({
 
   if (viewMode === 'list') {
     return (
-      <div className="bg-white rounded-lg border border-gray-200 p-4 hover:border-gray-300 transition-colors">
+      <div className="bg-white dark:bg-[var(--card)] rounded-lg border border-gray-200 dark:border-gray-700 p-4 hover:border-gray-300 dark:hover:border-gray-600 transition-colors">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4 flex-1 min-w-0">
             {/* Name and industry */}
@@ -94,7 +94,7 @@ export default function ClientCard({
                 <MoreVertical className="h-5 w-5" />
               </button>
               {menuOpen && (
-                <div className="absolute right-0 mt-1 w-36 bg-white rounded-md shadow-lg border border-gray-200 py-1 z-10">
+                <div className="absolute right-0 mt-1 w-36 bg-white dark:bg-[var(--card)] rounded-md shadow-lg border border-gray-200 dark:border-gray-700 py-1 z-10">
                   <Link
                     to={`/clients/${client.id}`}
                     className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100"

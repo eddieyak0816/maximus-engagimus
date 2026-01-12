@@ -99,7 +99,7 @@ export default function Layout() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-[var(--bg)]">
       {/* Skip link for keyboard users */}
       <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:bg-white dark:focus:bg-[var(--card-soft)] focus:px-3 focus:py-2 focus:rounded-md focus:ring-2 focus:ring-primary-500">Skip to main content</a>
       {/* Desktop Sidebar */}

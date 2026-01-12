@@ -35,7 +35,7 @@ const Card = forwardRef(function Card(
       className={`
         bg-white rounded-lg border border-gray-200 shadow-sm
         ${paddingClasses[padding]}
-        ${hover ? 'hover:shadow-md hover:border-gray-300 transition-all duration-200' : ''}
+        ${hover ? 'hover:shadow-lg hover:-translate-y-1 transform-gpu transition-all duration-200 hover:border-gray-300' : ''}
         ${isClickable ? 'cursor-pointer' : ''}
         ${className}
       `}

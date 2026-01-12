@@ -8,7 +8,19 @@ import React from 'react';
 import { Card } from '../ui';
 import { formatRelativeTime } from '../../lib/utils';
 
-export default function RecentActivity({ items = [] }) {
+export default function RecentActivity({ items = [], loading = false }) {
+  if (loading) {
+    return (
+      <Card padding="md">
+        <div className="space-y-3">
+          <div className="h-4 w-3/4 bg-gray-200 rounded animate-pulse" />
+          <div className="h-3 w-1/2 bg-gray-200 rounded animate-pulse" />
+          <div className="h-4 w-2/3 bg-gray-200 rounded animate-pulse" />
+        </div>
+      </Card>
+    );
+  }
+
   if (!items || items.length === 0) {
     return (
       <Card padding="md">

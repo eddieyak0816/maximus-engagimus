@@ -33,11 +33,48 @@ export default function Dashboard() {
   const { clients, loading: clientsLoading } = useClients({ activeOnly: true });
   const competitorInsights = useCompetitorInsights();
 
-  // Loading state
+  // Loading state — show skeleton layout for perceived performance
   if (loading || clientsLoading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <Spinner size="lg" />
+      <div className="space-y-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <Card padding="sm" className="h-28">
+            <div className="h-6 w-40 bg-gray-200 rounded animate-pulse" />
+            <div className="mt-3 h-8 w-3/4 bg-gray-200 rounded animate-pulse" />
+          </Card>
+          <Card padding="sm" className="h-28">
+            <div className="h-6 w-40 bg-gray-200 rounded animate-pulse" />
+            <div className="mt-3 h-8 w-3/4 bg-gray-200 rounded animate-pulse" />
+          </Card>
+          <Card padding="sm" className="h-28">
+            <div className="h-6 w-40 bg-gray-200 rounded animate-pulse" />
+            <div className="mt-3 h-8 w-3/4 bg-gray-200 rounded animate-pulse" />
+          </Card>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2">
+            <Card>
+              <div className="p-4 space-y-4">
+                <div className="h-4 w-1/3 bg-gray-200 rounded animate-pulse" />
+                <div className="space-y-2">
+                  <div className="h-3 w-full bg-gray-200 rounded animate-pulse" />
+                  <div className="h-3 w-5/6 bg-gray-200 rounded animate-pulse" />
+                  <div className="h-3 w-2/3 bg-gray-200 rounded animate-pulse" />
+                </div>
+              </div>
+            </Card>
+          </div>
+
+          <div className="space-y-6">
+            <Card>
+              <div className="p-4">
+                <div className="h-4 w-1/3 bg-gray-200 rounded animate-pulse" />
+                <div className="mt-4 h-6 w-full bg-gray-200 rounded animate-pulse" />
+              </div>
+            </Card>
+          </div>
+        </div>
       </div>
     );
   }

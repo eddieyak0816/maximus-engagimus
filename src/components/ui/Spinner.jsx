@@ -15,6 +15,15 @@ const sizes = {
   xl: 'h-12 w-12',
 };
 
+// Pixel fallback sizes (width/height) when utility classes aren't applied
+const pxSizes = {
+  xs: 12,
+  sm: 16,
+  md: 24,
+  lg: 32,
+  xl: 48,
+};
+
 // Color variants
 const colors = {
   primary: 'text-primary-500',
@@ -37,6 +46,8 @@ const Spinner = forwardRef(function Spinner(
     <svg
       ref={ref}
       className={`animate-spin spinner-fallback ${sizes[size]} ${colors[color]} ${className}`}
+      width={pxSizes[size]}
+      height={pxSizes[size]}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
@@ -66,7 +77,12 @@ Spinner.FullPage = function FullPageSpinner({ message = 'Loading...' }) {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-white/80 backdrop-blur-sm z-50">
       <div className="text-center">
-        <Spinner size="xl" />
+        {/* Primary spinner (uses classes) */}
+        <Spinner size="xl" aria-hidden="true" />
+
+        {/* Guaranteed CSS fallback spinner (no deps) */}
+        <div className="plain-spinner mx-auto" aria-hidden="true" />
+
         {message && (
           <p className="mt-4 text-gray-600 font-medium">{message}</p>
         )}

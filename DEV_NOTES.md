@@ -16,5 +16,12 @@ Recommendation:
 
 Files changed:
 - `src/contexts/AuthContext.jsx` — added retry + timeout fallback and safe error handling.
+- `src/components/ui/Spinner.jsx` & `src/index.css` — added a guaranteed CSS spinner fallback for environments where utility classes may not load.
 
 Reminder: When changing auth init behavior, always verify locally by simulating AbortError (DevTools network conditions or by mocking `supabase.auth.getSession`).
+
+Spinner debug checklist (SOP):
+1) Check Elements for `.plain-spinner` or `.spinner-fallback` presence.
+2) Check Computed Styles for `animation` and `border`/`width`/`height`.
+3) If missing, try Incognito (extensions disabled) to rule out interference.
+4) If broken in prod, add a screenshot and note browser/version in `DEV_NOTES.md`.

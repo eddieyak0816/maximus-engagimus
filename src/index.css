@@ -27,3 +27,14 @@ a { color: inherit; }
 /* Spinner fallback for environments where Tailwind utilities aren't loaded */
 @keyframes spin { to { transform: rotate(360deg); } }
 .spinner-fallback { animation: spin 1s linear infinite; }
+
+/* Guaranteed CSS spinner used as a fallback (no utility classes required) */
+.plain-spinner {
+  width: 48px;
+  height: 48px;
+  border: 6px solid #E9ECEF; /* gray-200 */
+  border-top-color: #3B4CCA; /* primary-500 */
+  border-radius: 9999px;
+  animation: spin 1s linear infinite;
+}
+

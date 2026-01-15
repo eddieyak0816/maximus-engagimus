@@ -60,6 +60,8 @@ const TextArea = forwardRef(function TextArea(
           focus:outline-none focus:ring-2 focus:ring-offset-0
           disabled:bg-gray-100 disabled:cursor-not-allowed
           transition-colors duration-200
+          dark:bg-[var(--card-soft)] dark:border-gray-700 dark:text-gray-200
+          shadow-sm
           ${fullWidth ? 'w-full' : ''}
           ${resizeClasses[resize]}
           ${hasError

@@ -102,9 +102,9 @@ a { color: inherit; }
 
 /* Quick action cards: remove gradient in dark and match the dashboard card surface */
 .dark .quick-card {
-  /* remove any background image (gradient) and use our card token */
+  /* remove any background image (gradient) and use the requested dark background */
   background-image: none !important;
-  background-color: var(--card) !important;
+  background-color: #0b0b0d !important; /* exact color requested */
   border-color: rgb(73, 80, 87) !important;
   border: 1px solid rgb(73, 80, 87) !important;
 }
@@ -116,12 +116,12 @@ a { color: inherit; }
 /* Stronger fallback selectors that match variations in generated classes */
 .dark [class*="quick-card"] {
   background-image: none !important;
-  /* Use the card surface in dark mode so quick-cards match the stat boxes */
-  background-color: var(--card) !important;
+  /* Use the requested dark background so quick-cards match the dashboard */
+  background-color: #0b0b0d !important; /* exact color requested */
   background-blend-mode: normal !important;
   border-color: rgb(73, 80, 87) !important;
   border: 1px solid rgb(73, 80, 87) !important;
-}
+} 
 .dark [class*="quick-card"] h3,
 .dark [class*="quick-card"] .font-semibold { color: var(--text) !important; }
 .dark [class*="quick-card"] p,

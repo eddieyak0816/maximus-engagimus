@@ -184,6 +184,7 @@ export default function GeneratorForm({
                   disabled={!isValid}
                   size="sm"
                   rightIcon={ExternalLink}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-warning-300 rounded-md text-sm font-medium text-warning-700 hover:bg-warning-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm dark:bg-[var(--card-soft)] dark:border-gray-700 dark:text-gray-200 dark:hover:bg-[var(--card)] dark:disabled:opacity-100 dark:disabled:bg-[var(--card-soft)] dark:disabled:border-gray-700"
                 >
                   {link.name}
                 </Button>
@@ -198,7 +199,7 @@ export default function GeneratorForm({
                 onClick={() => onNoApiGenerate(null)}
                 disabled={!isValid}
                 leftIcon={Copy}
-                className="w-full"
+                className="w-full shadow-sm dark:bg-[var(--card-soft)] dark:border-gray-700 dark:text-gray-200 dark:disabled:opacity-100 dark:disabled:bg-[var(--card-soft)] dark:disabled:border-gray-700"
               >
                 Copy Prompt Only
               </Button>

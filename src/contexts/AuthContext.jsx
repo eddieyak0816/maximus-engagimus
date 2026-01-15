@@ -46,6 +46,22 @@ export function AuthProvider({ children }) {
 
     async function initializeAuth() {
       try {
+        // Development shortcut: if dev mock auth is enabled, skip real Supabase calls
+        if (process.env.NODE_ENV !== 'production' && typeof window !== 'undefined' && localStorage.getItem('dev:mockAuth') === 'true') {
+          const mockUser = { id: 'dev-user', email: 'dev@local' };
+          const mockProfile = {
+            id: 'dev-user',
+            full_name: 'Developer',
+            role: 'owner',
+            organization: { id: 'org-dev', name: 'Dev Org', slug: 'dev-org' },
+          };
+          setUser(mockUser);
+          setProfile(mockProfile);
+          setOrganization(mockProfile.organization);
+          setLoading(false);
+          return;
+        }
+
         // Get initial session with a single retry on AbortError (transient network)
         let session = null;
         let sessionError = null;

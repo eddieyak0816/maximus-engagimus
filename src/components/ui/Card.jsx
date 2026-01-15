@@ -13,6 +13,7 @@ const Card = forwardRef(function Card(
     className = '',
     padding = 'md',
     hover = false,
+    soft = false,
     onClick,
     ...props
   },
@@ -33,7 +34,7 @@ const Card = forwardRef(function Card(
       ref={ref}
       onClick={onClick}
       className={`
-        bg-white dark:bg-[var(--card)] rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm
+        bg-white ${soft ? 'dark:bg-[var(--card-soft)]' : 'dark:bg-[var(--card)]'} rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm
         ${paddingClasses[padding]}
         ${hover ? 'hover:shadow-lg hover:-translate-y-1 transform-gpu transition-all duration-200 hover:border-gray-300 dark:hover:border-gray-600' : ''}
         ${isClickable ? 'cursor-pointer' : ''}

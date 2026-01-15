@@ -45,7 +45,7 @@ export default function ClientCard({
 
   if (viewMode === 'list') {
     return (
-      <div className="bg-white dark:bg-[var(--card)] rounded-lg border border-gray-200 dark:border-gray-700 p-4 hover:border-gray-300 dark:hover:border-gray-600 transition-colors">
+      <div className="bg-white dark:bg-[var(--card-soft)] rounded-lg border border-gray-200 dark:border-gray-700 p-4 hover:border-gray-300 dark:hover:border-gray-600 shadow-sm transition-colors">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4 flex-1 min-w-0">
             {/* Name and industry */}
@@ -123,7 +123,7 @@ export default function ClientCard({
 
   // Grid view
   return (
-    <div className="bg-white rounded-lg border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all">
+    <div className="bg-white rounded-lg border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all dark:bg-[var(--card-soft)] dark:border-gray-700">
       {/* Header */}
       <div className="p-4 border-b border-gray-100">
         <div className="flex items-start justify-between">
@@ -173,7 +173,7 @@ export default function ClientCard({
       </div>
 
       {/* Stats */}
-      <div className="px-4 py-3 border-t border-gray-100 bg-gray-50 rounded-b-lg">
+      <div className="px-4 py-3 border-t border-gray-100 bg-gray-50 rounded-b-lg dark:bg-[var(--card-soft)] dark:border-gray-700">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4 text-xs text-gray-500">
             <span className="flex items-center gap-1" title="Keywords">

@@ -34,7 +34,11 @@ export function useClients(options = {}) {
     try {
       setLoading(true);
       setError(null);
-      const data = await getClients(activeOnly);
+      // Guard against hanging network requests by adding a timeout
+      const data = await Promise.race([
+        getClients(activeOnly),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('Request timed out while fetching clients')), 10000)),
+      ]);
       setClients(data || []);
     } catch (err) {
       console.error('Error fetching clients:', err);
@@ -125,7 +129,11 @@ export function useClient(clientId) {
     try {
       setLoading(true);
       setError(null);
-      const data = await getClient(clientId);
+      // Guard against hanging network requests by adding a timeout
+      const data = await Promise.race([
+        getClient(clientId),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('Request timed out while fetching client')), 10000)),
+      ]);
       setClient(data);
     } catch (err) {
       console.error('Error fetching client:', err);

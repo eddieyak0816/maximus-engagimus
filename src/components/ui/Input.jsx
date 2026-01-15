@@ -69,6 +69,8 @@ const Input = forwardRef(function Input(
             focus:outline-none focus:ring-2 focus:ring-offset-0
             disabled:bg-gray-100 disabled:cursor-not-allowed
             transition-colors duration-200
+            dark:bg-[var(--card-soft)] dark:border-gray-700 dark:text-gray-200
+            shadow-sm
             ${sizes[size]}
             ${fullWidth ? 'w-full' : ''}
             ${LeftIcon ? 'pl-10' : ''}

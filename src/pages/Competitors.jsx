@@ -17,7 +17,7 @@ import {
   TrendingUp,
   Clock,
 } from 'lucide-react';
-import { useClients } from '../hooks/useClients';
+import { useClientSelect } from '../hooks/useClients';
 import { useCompetitors, useSightings, useCompetitorInsights } from '../hooks/useCompetitors';
 import {
   Card,
@@ -28,6 +28,7 @@ import {
   Modal,
   Badge,
 } from '../components/ui';
+import { ComponentErrorBoundary } from '../components/common/ErrorBoundary';
 import CompetitorCard from '../components/competitors/CompetitorCard';
 import CompetitorForm from '../components/competitors/CompetitorForm';
 import SightingCard from '../components/competitors/SightingCard';
@@ -59,7 +60,7 @@ export default function Competitors() {
   const [sightingForCompetitor, setSightingForCompetitor] = useState(null);
 
   // Data hooks
-  const { clients, clientOptions, loading: clientsLoading } = useClients({ activeOnly: false });
+  const { clients, clientOptions, loading: clientsLoading } = useClientSelect({ activeOnly: false });
   const {
     competitors,
     loading: competitorsLoading,
@@ -269,30 +270,36 @@ export default function Competitors() {
 
       {/* Competitors View */}
       {activeView === 'competitors' && selectedClientId && (
-        <CompetitorsView
-          competitors={filteredCompetitors}
-          loading={competitorsLoading}
-          onEdit={setEditingCompetitor}
-          onDelete={(id) => setDeleteConfirm({ type: 'competitor', id })}
-          onToggleActive={toggleCompetitorActive}
-          onAddSighting={openSightingForCompetitor}
-        />
+        <ComponentErrorBoundary>
+          <CompetitorsView
+            competitors={filteredCompetitors}
+            loading={competitorsLoading}
+            onEdit={setEditingCompetitor}
+            onDelete={(id) => setDeleteConfirm({ type: 'competitor', id })}
+            onToggleActive={toggleCompetitorActive}
+            onAddSighting={openSightingForCompetitor}
+          />
+        </ComponentErrorBoundary>
       )}
 
       {/* Sightings View */}
       {activeView === 'sightings' && (
-        <SightingsView
-          sightings={filteredSightings}
-          loading={sightingsLoading}
-          onEdit={setEditingSighting}
-          onDelete={(id) => setDeleteConfirm({ type: 'sighting', id })}
-          onMarkSeen={markSeen}
-        />
+        <ComponentErrorBoundary>
+          <SightingsView
+            sightings={filteredSightings}
+            loading={sightingsLoading}
+            onEdit={setEditingSighting}
+            onDelete={(id) => setDeleteConfirm({ type: 'sighting', id })}
+            onMarkSeen={markSeen}
+          />
+        </ComponentErrorBoundary>
       )}
 
       {/* Insights View */}
       {activeView === 'insights' && (
-        <InsightsView insights={insights} />
+        <ComponentErrorBoundary>
+          <InsightsView insights={insights} />
+        </ComponentErrorBoundary>
       )}
 
       {/* Create Competitor Modal */}

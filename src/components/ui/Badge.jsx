@@ -151,7 +151,7 @@ Badge.Relevance = function RelevanceBadge({ level, className = '', ...rest }) {
     ? 'bg-orange-100 text-orange-700 dark:bg-[var(--card-soft)] dark:text-gray-200 border border-gray-200 dark:border-gray-700 h-8 px-3 flex items-center'
     : '';
 
-  const finalClass = `${customClass} leading-tight ${className}`.trim();
+  const finalClass = `${customClass} leading-none ${level === 'medium' ? 'translate-y-px' : ''} ${className}`.trim();
 
   return (
     <Badge variant={config.variant} className={finalClass} {...rest}>

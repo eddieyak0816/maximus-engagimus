@@ -32,6 +32,14 @@ export default class ErrorBoundary extends Component {
 
     // Could send to error reporting service here
     // logErrorToService(error, errorInfo);
+
+    // Expose last error for easier debugging in dev environments
+    try {
+      // eslint-disable-next-line no-undef
+      window.__lastAppError = { error: error?.toString?.() || String(error), stack: errorInfo?.componentStack };
+    } catch (e) {
+      // ignore
+    }
   }
 
   handleReset = () => {

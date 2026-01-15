@@ -297,7 +297,7 @@ function MatchResult({ result, onGenerateComment }) {
           <Button
             variant="primary"
             size="xs"
-            className="ml-2 self-center h-8"
+            className="ml-2 self-center h-8 leading-none"
             onClick={(e) => {
               e.stopPropagation();
               onGenerateComment();

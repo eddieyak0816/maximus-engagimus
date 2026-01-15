@@ -18,7 +18,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { useHistory } from '../hooks/useHistory';
-import { useClients } from '../hooks/useClients';
+import { useClientSelect } from '../hooks/useClients';
 import {
   Card,
   Button,
@@ -27,6 +27,7 @@ import {
   Spinner,
   Badge,
 } from '../components/ui';
+import { PageErrorBoundary } from '../components/common/ErrorBoundary';
 import CommentOption from '../components/generator/CommentOption';
 import { formatDate, formatRelativeTime, getPlatformInfo, copyToClipboard, truncate } from '../lib/utils';
 import { toast } from '../components/ui/Toast';
@@ -52,7 +53,7 @@ export default function History() {
   const [selectedPlatform, setSelectedPlatform] = useState('');
 
   // Data
-  const { clients, clientOptions } = useClients({ activeOnly: false });
+  const { clients, clientOptions } = useClientSelect({ activeOnly: false });
   const {
     history,
     loading,
@@ -114,137 +115,139 @@ export default function History() {
   const hasFilters = searchQuery || selectedClientId || selectedPlatform;
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Generation History</h1>
-          <p className="text-gray-600 dark:text-gray-300 mt-1">
-            View and search your past comment generations
-          </p>
-        </div>
-        <Link to="/generator">
-          <Button leftIcon={Sparkles}>
-            Generate New
-          </Button>
-        </Link>
-      </div>
-
-      {/* Filters */}
-      <Card padding="sm">
-        <div className="flex flex-col md:flex-row gap-4">
-          <div className="flex-1">
-            <Input
-              placeholder="Search content or comments..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              leftIcon={Search}
-            />
+    <PageErrorBoundary>
+      <div className="space-y-6">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">Generation History</h1>
+            <p className="text-gray-600 dark:text-gray-300 mt-1">
+              View and search your past comment generations
+            </p>
           </div>
-          <div className="w-full md:w-48">
-            <Dropdown
-              placeholder="All Clients"
-              options={[
-                { value: '', label: 'All Clients' },
-                ...clientOptions.map(c => ({ value: c.value, label: c.label })),
-              ]}
-              value={selectedClientId}
-              onChange={setSelectedClientId}
-            />
-          </div>
-          <div className="w-full md:w-44">
-            <Dropdown
-              placeholder="All Platforms"
-              options={PLATFORM_OPTIONS}
-              value={selectedPlatform}
-              onChange={setSelectedPlatform}
-            />
-          </div>
-          {hasFilters && (
-            <Button variant="ghost" onClick={clearFilters}>
-              Clear
+          <Link to="/generator">
+            <Button leftIcon={Sparkles}>
+              Generate New
             </Button>
+          </Link>
+        </div>
+
+        {/* Filters */}
+        <Card padding="sm">
+          <div className="flex flex-col md:flex-row gap-4">
+            <div className="flex-1">
+              <Input
+                placeholder="Search content or comments..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                leftIcon={Search}
+              />
+            </div>
+            <div className="w-full md:w-48">
+              <Dropdown
+                placeholder="All Clients"
+                options={[
+                  { value: '', label: 'All Clients' },
+                  ...clientOptions.map(c => ({ value: c.value, label: c.label })),
+                ]}
+                value={selectedClientId}
+                onChange={setSelectedClientId}
+              />
+            </div>
+            <div className="w-full md:w-44">
+              <Dropdown
+                placeholder="All Platforms"
+                options={PLATFORM_OPTIONS}
+                value={selectedPlatform}
+                onChange={setSelectedPlatform}
+              />
+            </div>
+            {hasFilters && (
+              <Button variant="ghost" onClick={clearFilters}>
+                Clear
+              </Button>
+            )}
+          </div>
+        </Card>
+
+        {/* Results count */}
+        <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-300">
+          <span>
+            {filteredHistory.length} generation{filteredHistory.length !== 1 ? 's' : ''} found
+          </span>
+          {hasFilters && (
+            <span>Filtered from {history.length} total</span>
           )}
         </div>
-      </Card>
 
-      {/* Results count */}
-      <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-300">
-        <span>
-          {filteredHistory.length} generation{filteredHistory.length !== 1 ? 's' : ''} found
-        </span>
-        {hasFilters && (
-          <span>Filtered from {history.length} total</span>
+        {/* Loading */}
+        {loading && history.length === 0 && (
+          <div className="flex justify-center py-12">
+            <Spinner size="lg" />
+          </div>
+        )}
+
+        {/* Empty state */}
+        {!loading && filteredHistory.length === 0 && (
+          <Card className="text-center py-12">
+            <Clock className="h-12 w-12 text-gray-300 mx-auto mb-4" />
+            <h3 className="font-medium text-gray-900 mb-2">No History Yet</h3>
+            <p className="text-gray-500 dark:text-gray-300 mb-4">
+              {hasFilters
+                ? 'No generations match your filters.'
+                : 'Your comment generations will appear here.'}
+            </p>
+            {hasFilters ? (
+              <Button variant="secondary" onClick={clearFilters}>
+                Clear Filters
+              </Button>
+            ) : (
+              <Link to="/generator">
+                <Button>Generate Your First Comments</Button>
+              </Link>
+            )}
+          </Card>
+        )}
+
+        {/* History list grouped by date */}
+        {groupedHistory.length > 0 && (
+          <div className="space-y-8">
+            {groupedHistory.map(({ date, items }) => (
+              <div key={date}>
+                {/* Date header */}
+                <div className="flex items-center gap-3 mb-4">
+                  <Calendar className="h-5 w-5 text-gray-400 dark:text-gray-400" />
+                  <h2 className="font-semibold text-gray-900">{date}</h2>
+                  <span className="text-sm text-gray-500 dark:text-gray-300">
+                    ({items.length} generation{items.length !== 1 ? 's' : ''})
+                  </span>
+                </div>
+
+                {/* Items */}
+                <div className="space-y-4">
+                  {items.map((item) => (
+                    <HistoryItem key={item.id} item={item} />
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Load more */}
+        {hasMore && (
+          <div className="flex justify-center pt-4">
+            <Button
+              variant="secondary"
+              onClick={loadMore}
+              loading={loading}
+            >
+              Load More
+            </Button>
+          </div>
         )}
       </div>
-
-      {/* Loading */}
-      {loading && history.length === 0 && (
-        <div className="flex justify-center py-12">
-          <Spinner size="lg" />
-        </div>
-      )}
-
-      {/* Empty state */}
-      {!loading && filteredHistory.length === 0 && (
-        <Card className="text-center py-12">
-          <Clock className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-          <h3 className="font-medium text-gray-900 mb-2">No History Yet</h3>
-          <p className="text-gray-500 dark:text-gray-300 mb-4">
-            {hasFilters
-              ? 'No generations match your filters.'
-              : 'Your comment generations will appear here.'}
-          </p>
-          {hasFilters ? (
-            <Button variant="secondary" onClick={clearFilters}>
-              Clear Filters
-            </Button>
-          ) : (
-            <Link to="/generator">
-              <Button>Generate Your First Comments</Button>
-            </Link>
-          )}
-        </Card>
-      )}
-
-      {/* History list grouped by date */}
-      {groupedHistory.length > 0 && (
-        <div className="space-y-8">
-          {groupedHistory.map(({ date, items }) => (
-            <div key={date}>
-              {/* Date header */}
-              <div className="flex items-center gap-3 mb-4">
-                <Calendar className="h-5 w-5 text-gray-400 dark:text-gray-400" />
-                <h2 className="font-semibold text-gray-900">{date}</h2>
-                <span className="text-sm text-gray-500 dark:text-gray-300">
-                  ({items.length} generation{items.length !== 1 ? 's' : ''})
-                </span>
-              </div>
-
-              {/* Items */}
-              <div className="space-y-4">
-                {items.map((item) => (
-                  <HistoryItem key={item.id} item={item} />
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* Load more */}
-      {hasMore && (
-        <div className="flex justify-center pt-4">
-          <Button
-            variant="secondary"
-            onClick={loadMore}
-            loading={loading}
-          >
-            Load More
-          </Button>
-        </div>
-      )}
-    </div>
+    </PageErrorBoundary>
   );
 }
 

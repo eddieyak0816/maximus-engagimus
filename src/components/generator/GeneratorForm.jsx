@@ -189,8 +189,23 @@ export default function GeneratorForm({
                 </Button>
               ))}
             </div>
+
+            {/* Single copy button for No-API mode */}
+            <div className="pt-3">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => onNoApiGenerate(null)}
+                disabled={!isValid}
+                leftIcon={Copy}
+                className="w-full"
+              >
+                Copy Prompt Only
+              </Button>
+            </div>
+
             <p className="text-xs text-gray-500 text-center">
-              Copies prompt to clipboard and opens AI chat
+              Copies prompt to clipboard and opens AI chat (choose a chat provider above to open)
             </p>
           </div>
         )}

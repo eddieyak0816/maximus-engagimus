@@ -14,6 +14,7 @@ import {
   HelpCircle,
   Lightbulb,
   Zap,
+  Plus,
 } from 'lucide-react';
 import { Card, Badge, Button } from '../ui';
 import { COMMENT_STYLE_INFO } from '../../lib/prompts';
@@ -41,6 +42,7 @@ export default function CommentOption({
   index,
   onCopy,
   onMarkUsed,
+  onSave,
 }) {
   const [copied, setCopied] = useState(false);
 
@@ -105,6 +107,14 @@ export default function CommentOption({
           {copied ? 'Copied!' : 'Copy'}
         </Button>
         
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={onSave}
+          leftIcon={Plus}
+        >
+          Save
+        </Button>
         {!option.isUsed && (
           <Button
             variant="primary"

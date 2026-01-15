@@ -7,9 +7,10 @@
 import { useState } from 'react';
 import { Sparkles, Copy, ExternalLink, AlertCircle } from 'lucide-react';
 import { useGenerator } from '../hooks/useGenerator';
+import { addClientSampleComment } from '../lib/supabase';
 import { useClientSelect } from '../hooks/useClients';
 import { useAIProviders, useAIChatLinks } from '../hooks/useAIProviders';
-import { Card, Button, Spinner, Badge } from '../components/ui';
+import { Card, Button, Spinner, Badge, Modal, toast } from '../components/ui';
 import GeneratorForm from '../components/generator/GeneratorForm';
 import CommentOption from '../components/generator/CommentOption';
 
@@ -24,6 +25,7 @@ export default function Generator() {
     copyOption,
     generatePromptForClipboard,
     clear,
+    markOptionSaved,
   } = useGenerator();
 
   const { clients, clientOptions, loading: clientsLoading, getClientById } = useClientSelect();
@@ -90,6 +92,46 @@ export default function Generator() {
   const handleMarkUsed = async (option, index) => {
     await markAsUsed(index, option.style);
     await copyOption(option.text);
+  };
+
+  // Save modal state
+  const [saveModalOpen, setSaveModalOpen] = useState(false);
+  const [saveText, setSaveText] = useState('');
+  const [saveIndex, setSaveIndex] = useState(null);
+  const [saving, setSaving] = useState(false);
+
+  // Open save modal
+  const handleOpenSaveModal = (option, index) => {
+    setSaveText(option.text || '');
+    setSaveIndex(index);
+    setSaveModalOpen(true);
+  };
+
+  // Confirm save to client sample comments
+  const handleConfirmSave = async () => {
+    if (!formData.clientId) {
+      toast.error('Please select a client to save this comment to');
+      return;
+    }
+
+    try {
+      setSaving(true);
+      await addClientSampleComment(formData.clientId, {
+        platform: formData.platform || null,
+        comment_text: saveText,
+        notes: '',
+      });
+
+      // Mark locally
+      markOptionSaved(saveIndex);
+      toast.success('Saved comment to client samples');
+      setSaveModalOpen(false);
+    } catch (err) {
+      console.error('Failed to save sample comment:', err);
+      toast.error('Failed to save comment');
+    } finally {
+      setSaving(false);
+    }
   };
 
   // Loading state
@@ -258,9 +300,46 @@ export default function Generator() {
                     index={index}
                     onCopy={() => handleCopy(option)}
                     onMarkUsed={() => handleMarkUsed(option, index)}
+                    onSave={() => handleOpenSaveModal(option, index)}
                   />
                 ))}
               </div>
+
+              <Modal
+                isOpen={saveModalOpen}
+                onClose={() => setSaveModalOpen(false)}
+                title="Save Comment to Client"
+                description="Edit the comment before saving it to the selected client profile."
+                footer={
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => setSaveModalOpen(false)}
+                      className="px-4 py-2 text-sm font-medium text-gray-700 bg-white dark:bg-[var(--card-soft)] dark:text-gray-200 border border-gray-300 dark:border-gray-700 rounded-md hover:bg-gray-50 dark:hover:bg-[var(--card-soft)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleConfirmSave}
+                      disabled={saving}
+                      className={`px-4 py-2 text-sm font-medium text-white rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 bg-primary-500 hover:bg-primary-600`}
+                    >
+                      {saving ? 'Saving...' : 'Save to Client'}
+                    </button>
+                  </>
+                }
+                >
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Comment</label>
+                  <textarea
+                    rows={5}
+                    value={saveText}
+                    onChange={(e) => setSaveText(e.target.value)}
+                    className="block w-full px-3 py-2 border border-gray-200 rounded-md bg-white text-gray-900 dark:bg-[var(--card-soft)] dark:text-gray-200 dark:border-gray-700"
+                  />
+                </div>
+              </Modal>
 
               {/* Tips */}
               <Card padding="sm" className="bg-gray-50 dark:bg-[var(--bg)]">

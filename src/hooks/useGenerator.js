@@ -182,6 +182,13 @@ export function useGenerator() {
   }, [generationId]);
 
   /**
+   * Mark an option as saved (client sample comment)
+   */
+  const markOptionSaved = useCallback((optionIndex) => {
+    setOptions(prev => prev.map((opt, idx) => idx === optionIndex ? { ...opt, isSaved: true } : opt));
+  }, []);
+
+  /**
    * Copy option text to clipboard
    */
   const copyOption = useCallback(async (optionText) => {
@@ -259,6 +266,8 @@ export function useGenerator() {
     copyOption,
     generatePromptForClipboard,
     clear,
+    // Mutators
+    markOptionSaved,
   };
 }
 

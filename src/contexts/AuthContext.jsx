@@ -22,24 +22,7 @@ export function AuthProvider({ children }) {
   const [error, setError] = useState(null);
 
   /**
-   * Fetch user profile and organization data
-   */
-  const fetchProfile = useCallback(async () => {
-    try {
-      const data = await getUserProfile();
-      setProfile(data);
-      setOrganization(data?.organization || null);
-      setError(null);
-    } catch (err) {
-      console.error('Error fetching profile:', err);
-      setError(err.message);
-      setProfile(null);
-      setOrganization(null);
-    }
-  }, []);
-
-  /**
-   * Initialize auth state on mount
+   * Sign in with email and password
    */
   useEffect(() => {
     let mounted = true;
@@ -66,8 +49,6 @@ export function AuthProvider({ children }) {
         let session = null;
         let sessionError = null;
 
-        const timeoutPromise = new Promise((_, rej) => setTimeout(() => rej(new Error('auth-init-timeout')), 4000));
-
         const getSessionWithRetry = async () => {
           for (let attempt = 0; attempt < 2; attempt++) {
             try {
@@ -85,36 +66,53 @@ export function AuthProvider({ children }) {
           return { session: null, error: null };
         };
 
-        const { session: s, error: se } = await Promise.race([getSessionWithRetry(), timeoutPromise]);
-        session = s;
-        sessionError = se;
+        // Add a longer timeout (8 seconds) as fallback
+        const timeoutPromise = new Promise((_, rej) => 
+          setTimeout(() => rej(new Error('auth-init-timeout')), 8000)
+        );
 
-        if (sessionError) throw sessionError;
+        try {
+          const { session: s, error: se } = await Promise.race([getSessionWithRetry(), timeoutPromise]);
+          session = s;
+          sessionError = se;
+          if (sessionError) throw sessionError;
+        } catch (err) {
+          // Timeout is not fatal - just means session check took too long
+          if (err?.message === 'auth-init-timeout') {
+            console.warn('[Auth] Session check timed out, continuing...');
+          } else {
+            throw err;
+          }
+        }
 
         if (mounted) {
           if (session?.user) {
             setUser(session.user);
-            await fetchProfile();
+            
+            // Fetch profile and wait for it to complete
+            try {
+              const profileData = await Promise.race([
+                getUserProfile(),
+                new Promise((_, reject) => 
+                  setTimeout(() => reject(new Error('Profile fetch timeout')), 20000)
+                ),
+              ]);
+              
+              if (mounted && profileData) {
+                setProfile(profileData);
+                setOrganization(profileData?.organization || null);
+              }
+            } catch (profileErr) {
+              console.error('Error fetching profile:', profileErr);
+              if (mounted) {
+                setProfile(null);
+                setOrganization(null);
+              }
+            }
           } else {
             setUser(null);
             setProfile(null);
             setOrganization(null);
-
-            // Development-only: allow a mocked authenticated user when
-            // localStorage flag `dev:mockAuth` is set. This helps preview
-            // authenticated pages (dashboard, settings) without real auth.
-            if (process.env.NODE_ENV !== 'production' && typeof window !== 'undefined' && localStorage.getItem('dev:mockAuth') === 'true') {
-              const mockUser = { id: 'dev-user', email: 'dev@local' };
-              const mockProfile = {
-                id: 'dev-user',
-                full_name: 'Developer',
-                role: 'owner',
-                organization: { id: 'org-dev', name: 'Dev Org', slug: 'dev-org' },
-              };
-              setUser(mockUser);
-              setProfile(mockProfile);
-              setOrganization(mockProfile.organization);
-            }
           }
           setLoading(false);
         }
@@ -141,7 +139,25 @@ export function AuthProvider({ children }) {
             setUser(session.user);
             // Fetch profile on sign in or token refresh
             if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
-              await fetchProfile();
+              try {
+                const profileData = await Promise.race([
+                  getUserProfile(),
+                  new Promise((_, reject) => 
+                    setTimeout(() => reject(new Error('Profile fetch timeout')), 20000)
+                  ),
+                ]);
+                
+                if (mounted && profileData) {
+                  setProfile(profileData);
+                  setOrganization(profileData?.organization || null);
+                }
+              } catch (profileErr) {
+                console.error('Error fetching profile on sign in:', profileErr);
+                if (mounted) {
+                  setProfile(null);
+                  setOrganization(null);
+                }
+              }
             }
           } else {
             setUser(null);
@@ -156,7 +172,7 @@ export function AuthProvider({ children }) {
       mounted = false;
       subscription.unsubscribe();
     };
-  }, [fetchProfile]);
+  }, []);
 
   /**
    * Sign in with email and password
@@ -243,6 +259,10 @@ export function AuthProvider({ children }) {
   const signOut = async () => {
     try {
       setError(null);
+      
+      // Clear dev mock auth flag if it exists
+      localStorage.removeItem('dev:mockAuth');
+      
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
       
@@ -325,7 +345,21 @@ export function AuthProvider({ children }) {
    * Refresh profile data
    */
   const refreshProfile = async () => {
-    await fetchProfile();
+    try {
+      const profileData = await Promise.race([
+        getUserProfile(),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Profile fetch timeout')), 20000)
+        ),
+      ]);
+      
+      if (profileData) {
+        setProfile(profileData);
+        setOrganization(profileData?.organization || null);
+      }
+    } catch (err) {
+      console.error('Error refreshing profile:', err);
+    }
   };
 
   // Context value

@@ -7,14 +7,14 @@
 
 import { createClient } from '@supabase/supabase-js';
 
-// Environment variables
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+// Environment variables (safe access for test envs)
+const supabaseUrl = (import.meta && import.meta.env && import.meta.env.VITE_SUPABASE_URL) || process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL || '';
+const supabaseAnonKey = (import.meta && import.meta.env && import.meta.env.VITE_SUPABASE_ANON_KEY) || process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_KEY || '';
 
 // Validate environment variables
 if (!supabaseUrl || !supabaseAnonKey) {
-  console.error(
-    'Missing Supabase environment variables. Please check your .env file.'
+  console.warn(
+    'Missing Supabase environment variables. Some operations may fail in tests without them.'
   );
 }
 
@@ -162,6 +162,98 @@ export async function getOrganizationMembers() {
   return data;
 }
 
+/**
+ * Update a user's role (owner/admin/member)
+ */
+export async function updateUserRole(userId, role) {
+  const allowed = ['owner', 'admin', 'member'];
+  if (!allowed.includes(role)) throw new Error('Invalid role');
+
+  // Update role
+  const { data, error } = await supabase
+    .from('users')
+    .update({ role })
+    .eq('id', userId)
+    .select()
+    .single();
+
+  if (error) throw error;
+
+  // Try to log the change; don't block the main flow if logging fails
+  try {
+    // Get current auth user id (if available)
+    const { data: authUser } = await supabase.auth.getUser();
+    const actorId = authUser?.user?.id || null;
+
+    // Insert log with organization from the updated user record
+    await supabase
+      .from('role_change_logs')
+      .insert({
+        organization_id: data.organization_id,
+        user_id: userId,
+        actor_id: actorId,
+        action: 'role_change',
+        details: { new_role: role },
+      });
+  } catch (logErr) {
+    console.warn('Failed to log role change', logErr);
+  }
+
+  return data;
+}
+
+/**
+ * Log a role change or removal explicitly
+ */
+export async function logRoleChange(organizationId, userId, actorId, action, details = {}) {
+  const { data, error } = await supabase
+    .from('role_change_logs')
+    .insert({ organization_id: organizationId, user_id: userId, actor_id: actorId, action, details })
+    .select()
+    .single();
+
+  if (error) throw error;
+  return data;
+}
+
+/**
+ * Remove a member from the organization (deletes from users table)
+ */
+export async function removeOrganizationMember(userId) {
+  // Fetch user to know their org for logging
+  const { data: userData, error: userErr } = await supabase
+    .from('users')
+    .select('id, email, organization_id')
+    .eq('id', userId)
+    .single();
+  if (userErr) throw userErr;
+
+  const { error } = await supabase
+    .from('users')
+    .delete()
+    .eq('id', userId);
+
+  if (error) throw error;
+
+  // Log removal
+  try {
+    const { data: authUser } = await supabase.auth.getUser();
+    const actorId = authUser?.user?.id || null;
+
+    await supabase
+      .from('role_change_logs')
+      .insert({
+        organization_id: userData.organization_id,
+        user_id: userId,
+        actor_id: actorId,
+      });
+  } catch (logErr) {
+    console.warn('Failed to log member removal', logErr);
+  }
+
+  return { success: true };
+} 
+
 // ============================================
 // CLIENT HELPERS
 // ============================================
@@ -170,15 +262,10 @@ export async function getOrganizationMembers() {
  * Get all clients for organization
  */
 export async function getClients(activeOnly = false) {
+  // Fetch just the clients first (fast)
   let query = supabase
     .from('clients')
-    .select(`
-      *,
-      keywords:client_keywords(id, keyword),
-      sample_comments:client_sample_comments(id, platform, comment_text),
-      industry_sites:client_industry_sites(id, site_name, site_url, site_type),
-      platforms:client_platforms(id, platform, handle, profile_url)
-    `)
+    .select(`*`)
     .order('name');
   
   if (activeOnly) {
@@ -187,7 +274,16 @@ export async function getClients(activeOnly = false) {
   
   const { data, error } = await query;
   if (error) throw error;
-  return data;
+  
+  // Add empty arrays for nested data by default
+  // Data can be fetched on-demand when viewing individual client
+  return data.map(client => ({
+    ...client,
+    keywords: [],
+    sample_comments: [],
+    industry_sites: [],
+    platforms: [],
+  }));
 }
 
 /**

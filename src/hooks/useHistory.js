@@ -29,12 +29,18 @@ export function useHistory(options = {}) {
       setLoading(true);
       setError(null);
       
-      const data = await getGeneratedComments({
-        clientId,
-        platform,
-        limit: limit + 1, // Fetch one extra to check if there's more
-        offset,
-      });
+      // Add timeout to prevent hanging
+      const data = await Promise.race([
+        getGeneratedComments({
+          clientId,
+          platform,
+          limit: limit + 1, // Fetch one extra to check if there's more
+          offset,
+        }),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Request timed out while fetching history')), 15000)
+        ),
+      ]);
 
       // Check if there are more results
       if (data.length > limit) {
@@ -52,7 +58,7 @@ export function useHistory(options = {}) {
     } catch (err) {
       console.error('Error fetching history:', err);
       setError(err.message);
-      toast.error('Failed to load history');
+      // Don't show toast error for history - it's optional for dashboard
     } finally {
       setLoading(false);
     }
@@ -151,7 +157,13 @@ export function useGenerationStats() {
       setLoading(true);
       setError(null);
       
-      const data = await getCommentStats();
+      // Add timeout to prevent hanging
+      const data = await Promise.race([
+        getCommentStats(),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Request timed out while fetching stats')), 15000)
+        ),
+      ]);
       
       // Calculate derived stats
       const totalGenerations = data.total_generations || 0;
@@ -173,6 +185,17 @@ export function useGenerationStats() {
     } catch (err) {
       console.error('Error fetching stats:', err);
       setError(err.message);
+      // Set default empty stats on error so dashboard still renders
+      setStats({
+        totalGenerations: 0,
+        totalCommentsGenerated: 0,
+        commentsUsed: 0,
+        usageRate: 0,
+        generationsByClient: [],
+        generationsByPlatform: [],
+        recentActivity: [],
+        averageOptionsPerGeneration: 0,
+      });
     } finally {
       setLoading(false);
     }

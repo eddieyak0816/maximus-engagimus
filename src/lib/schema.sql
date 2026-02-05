@@ -308,6 +308,80 @@ CREATE POLICY "Users can update own profile"
   USING (id = auth.uid())
   WITH CHECK (id = auth.uid());
 
+-- Owners can manage organization members (promote/demote roles)
+CREATE POLICY "Owners can manage members - update"
+  ON users FOR UPDATE
+  USING (
+    organization_id = get_user_organization_id()
+    AND EXISTS (SELECT 1 FROM users u WHERE u.id = auth.uid() AND u.role = 'owner')
+  )
+  WITH CHECK (
+    organization_id = get_user_organization_id()
+    AND role IN ('owner', 'admin', 'member')
+  );
+
+CREATE POLICY "Owners can manage members - delete"
+  ON users FOR DELETE
+  USING (
+    organization_id = get_user_organization_id()
+    AND EXISTS (SELECT 1 FROM users u WHERE u.id = auth.uid() AND u.role = 'owner')
+  );
+-- ============================================
+-- Audit: Role change / membership logs
+-- ============================================
+CREATE TABLE role_change_logs (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  organization_id UUID NOT NULL REFERENCES organizations(id) ON DELETE CASCADE,
+  user_id UUID NOT NULL,
+  actor_id UUID NOT NULL,
+  action VARCHAR(50) NOT NULL CHECK (action IN ('role_change', 'remove_member')),
+  details JSONB,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX idx_role_change_logs_org ON role_change_logs(organization_id);
+
+ALTER TABLE role_change_logs ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Orgs can insert role change logs"
+  ON role_change_logs FOR INSERT
+  WITH CHECK (organization_id = get_user_organization_id());
+
+CREATE POLICY "Orgs can view role change logs"
+  ON role_change_logs FOR SELECT
+  USING (organization_id = get_user_organization_id());
+
+-- Triggers to automatically log role changes and removals
+CREATE OR REPLACE FUNCTION fn_log_user_role_change()
+RETURNS TRIGGER AS $$
+BEGIN
+  IF TG_OP = 'UPDATE' AND (OLD.role IS DISTINCT FROM NEW.role) THEN
+    INSERT INTO role_change_logs (organization_id, user_id, actor_id, action, details)
+    VALUES (NEW.organization_id, NEW.id, NULL, 'role_change', jsonb_build_object('old_role', OLD.role, 'new_role', NEW.role));
+  END IF;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+CREATE TRIGGER trg_log_user_role_change
+  AFTER UPDATE OF role ON users
+  FOR EACH ROW
+  WHEN (OLD.role IS DISTINCT FROM NEW.role)
+  EXECUTE PROCEDURE fn_log_user_role_change();
+
+CREATE OR REPLACE FUNCTION fn_log_user_removed()
+RETURNS TRIGGER AS $$
+BEGIN
+  INSERT INTO role_change_logs (organization_id, user_id, actor_id, action, details)
+  VALUES (OLD.organization_id, OLD.id, NULL, 'remove_member', jsonb_build_object('email', OLD.email));
+  RETURN OLD;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+CREATE TRIGGER trg_log_user_removed
+  AFTER DELETE ON users
+  FOR EACH ROW
+  EXECUTE PROCEDURE fn_log_user_removed();
 -- Clients: Organization-scoped access
 CREATE POLICY "Users can view org clients"
   ON clients FOR SELECT

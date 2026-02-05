@@ -1,0 +1,106 @@
+import { render, screen, waitFor, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+
+// Mock useAuth to simulate an owner
+vi.mock('../../contexts/AuthContext', () => ({
+  useAuth: () => ({
+    user: { id: 'owner-1', email: 'owner@example.com' },
+    profile: { id: 'owner-1', role: 'owner', full_name: 'Owner' },
+    isOwner: true,
+    refreshProfile: vi.fn(),
+  }),
+}));
+
+// Mock supabase helpers
+vi.mock('../../lib/supabase', () => {
+  const mockMembers = [
+    { id: 'owner-1', email: 'owner@example.com', full_name: 'Owner', role: 'owner' },
+    { id: 'member-1', email: 'member@example.com', full_name: 'Member', role: 'member' },
+  ];
+
+  const updateUserRole = vi.fn(async () => ({ id: 'member-1', role: 'admin' }));
+  const removeOrganizationMember = vi.fn(async () => ({ success: true }));
+
+  return {
+    getOrganizationMembers: vi.fn(async () => mockMembers),
+    updateUserRole,
+    removeOrganizationMember,
+    // Minimal mocks for other exports used by other hooks so tests don't error
+    getAIProviders: vi.fn(async () => []),
+    getAIChatLinks: vi.fn(async () => []),
+    getPlatformPrompts: vi.fn(async () => []),
+  };
+});
+
+import Settings from '../Settings';
+import { MemoryRouter, Routes, Route } from 'react-router-dom';
+
+describe('Organization Team Members', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it('allows an owner to change another member role', async () => {
+    render(
+      <MemoryRouter initialEntries={["/settings/organization"]}>
+        <Routes>
+          <Route path="/settings/:tab" element={<Settings />} />
+        </Routes>
+      </MemoryRouter>
+    );
+
+    // Wait for member to appear
+    await screen.findByText('member@example.com');
+
+    // Setup user after render so DOM is ready
+    const user = userEvent.setup();
+
+    // Open the dropdown for that member (button shows current role 'Member')
+    const dropdownTrigger = screen.getByRole('button', { name: /member/i });
+    await user.click(dropdownTrigger);
+
+    // Select 'Admin'
+    const option = await screen.findByText('Admin');
+    await user.click(option);
+
+    // Confirm modal appears and confirm
+    const confirmBtn = await screen.findByRole('button', { name: /change/i });
+    await user.click(confirmBtn);
+
+    // Expect updateUserRole to have been called
+    const updateUserRole = require('../../lib/supabase').updateUserRole;
+    await waitFor(() => expect(updateUserRole).toHaveBeenCalledWith('member-1', 'admin'));
+  });
+
+  it('allows an owner to remove a member', async () => {
+    const removeOrganizationMember = require('../../lib/supabase').removeOrganizationMember;
+
+    render(
+      <MemoryRouter initialEntries={["/settings/organization"]}>
+        <Routes>
+          <Route path="/settings/:tab" element={<Settings />} />
+        </Routes>
+      </MemoryRouter>
+    );
+
+    // Wait for member to appear
+    const memberRow = await screen.findByText('member@example.com');
+
+    // Setup user after render so DOM is ready
+    const user = userEvent.setup();
+
+    // Click Remove button inside that member's row
+    const row = memberRow.closest('div');
+    const { getByRole } = within(row);
+    const removeBtn = getByRole('button', { name: /remove/i });
+    await user.click(removeBtn);
+
+    // Confirm removal
+    const confirmRemove = await screen.findByRole('button', { name: /remove/i });
+    await user.click(confirmRemove);
+
+    // Expect removeOrganizationMember to have been called
+    await waitFor(() => expect(removeOrganizationMember).toHaveBeenCalledWith('member-1'));
+  });
+});

@@ -107,10 +107,10 @@ export function AuthProvider({ children }) {
             } catch (profileErr) {
               console.error('Error fetching profile:', profileErr);
               if (mounted) {
-                // Fall back to just setting user if profile fails
+                // If profile fetch fails on initial load, at least set the user
+                // Profile can be loaded later when network improves
                 setUser(session.user);
-                setProfile(null);
-                setOrganization(null);
+                // Don't set profile to null - let it retry when visibility changes or auth refreshes
               }
             }
           } else {
@@ -156,15 +156,19 @@ export function AuthProvider({ children }) {
                 if (profileData) {
                   setProfile(profileData);
                   setOrganization(profileData?.organization || null);
+                } else {
+                  setProfile(null);
+                  setOrganization(null);
                 }
               }
             } catch (profileErr) {
               console.error('Error fetching profile on session change:', profileErr);
               if (mounted) {
-                // Fall back to just setting user if profile fails
+                // If profile fetch fails but we already have a profile cached, keep it
+                // Only clear profile if we don't have one yet
                 setUser(session.user);
-                setProfile(null);
-                setOrganization(null);
+                // Don't set profile to null - keep the existing one if it exists
+                // This prevents the avatar from flashing back to "T" when visibility changes or network is slow
               }
             }
           } else {

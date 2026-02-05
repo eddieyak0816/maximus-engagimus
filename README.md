@@ -20,6 +20,7 @@ Maximus Engagimus helps marketing agencies manage social media engagement across
 - **📈 History & Analytics** - View generation history, track usage rates, and monitor engagement patterns
 - **⚡ Multi-Provider AI** - Support for 8+ AI providers with automatic fallback (Groq, Cerebras, Gemini, OpenRouter, Mistral, DeepSeek, OpenAI, Anthropic)
 - **📋 "No API" Mode** - Copy prompts to use with any AI chat interface (ChatGPT, Claude, etc.)
+- **🚀 Performance Optimized** - Enterprise-level caching, Service Worker, instant page loads, 2-second timeout maximum
 
 ## 🚀 Quick Start
 
@@ -101,7 +102,8 @@ npx playwright test tests/e2e/analyzer-nondestructive.spec.ts -g "non-destructiv
 
 ```
 maximus-engagimus/
-├── public/                  # Static assets
+├── public/
+│   └── service-worker.js   # Service Worker for offline support
 ├── src/
 │   ├── components/
 │   │   ├── ui/             # Reusable UI components (Button, Input, Modal, etc.)
@@ -118,6 +120,7 @@ maximus-engagimus/
 │   │   ├── supabase.js     # Supabase client and data layer
 │   │   ├── ai.js           # AI provider integration
 │   │   ├── prompts.js      # Prompt templates
+│   │   ├── cache.js        # Client-side caching utility
 │   │   └── utils.js        # Helper functions
 │   ├── pages/              # Route pages
 │   ├── App.jsx             # Main app with routing
@@ -132,6 +135,19 @@ maximus-engagimus/
 └── README.md
 ```
 
+## ⚡ Performance Architecture
+
+Maximus Engagimus is built for enterprise-level performance:
+
+- **Client-Side Caching** - localStorage with TTL (10-minute data cache, unlimited auth cache)
+- **Service Worker** - Offline support and background sync for static assets
+- **Optimistic Updates** - UI changes appear instantly, sync in background
+- **Smart Session Management** - Only fetches fresh data on login, uses cache for all other events
+- **Fast Timeouts** - 2-second maximum for all network requests (enterprise standard)
+- **Instant Navigation** - Cached data displays at 0ms, fresh data syncs silently
+
+**Result:** Page loads are instant when switching windows or navigating between pages. Users see cached data immediately while fresh data updates in the background.
+
 ## 🎨 Tech Stack
 
 - **Frontend**: React 18, Vite, TailwindCSS
@@ -139,6 +155,8 @@ maximus-engagimus/
 - **AI**: OpenAI-compatible providers (Groq, Cerebras, Gemini, etc.)
 - **Icons**: Lucide React
 - **Routing**: React Router v6
+- **Caching**: localStorage + Service Worker
+- **Performance**: Optimistic updates, 2s timeouts
 
 ## 📚 Features in Detail
 

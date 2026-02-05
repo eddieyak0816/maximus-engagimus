@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maximus Engagimus - User Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        nav {
+            background: #f8f9fa;
+            padding: 1rem 2rem;
+            border-bottom: 2px solid #e9ecef;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+        
+        nav a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        
+        nav a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+        
+        main {
+            padding: 2rem;
+        }
+        
+        section {
+            margin-bottom: 3rem;
+            scroll-margin-top: 80px;
+        }
+        
+        h2 {
+            color: #667eea;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        h3 {
+            color: #764ba2;
+            font-size: 1.5rem;
+            margin: 1.5rem 0 0.75rem;
+        }
+        
+        h4 {
+            color: #555;
+            font-size: 1.2rem;
+            margin: 1rem 0 0.5rem;
+        }
+        
+        p {
+            margin-bottom: 1rem;
+            color: #555;
+        }
+        
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+        
+        li {
+            margin-bottom: 0.5rem;
+            color: #555;
+        }
+        
+        .feature-box {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+        
+        .tip {
+            background: #d1f2eb;
+            border-left: 4px solid #28a745;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+        
+        .tip strong {
+            color: #28a745;
+        }
+        
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+        
+        .warning strong {
+            color: #856404;
+        }
+        
+        code {
+            background: #f4f4f4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: #d63384;
+        }
+        
+        .step {
+            background: white;
+            border: 1px solid #e9ecef;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        .step-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+        
+        footer {
+            background: #343a40;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        
+        th, td {
+            border: 1px solid #dee2e6;
+            padding: 0.75rem;
+            text-align: left;
+        }
+        
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #667eea;
+        }
+        
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            header h1 {
+                font-size: 1.8rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⚡ Maximus Engagimus</h1>
+            <p>Complete User Guide - AI-Powered Social Media Engagement Tool</p>
+        </header>
+        
+        <nav>
+            <ul>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#getting-started">Getting Started</a></li>
+                <li><a href="#dashboard">Dashboard</a></li>
+                <li><a href="#clients">Clients</a></li>
+                <li><a href="#generator">Comment Generator</a></li>
+                <li><a href="#analyzer">Content Analyzer</a></li>
+                <li><a href="#competitors">Competitor Tracking</a></li>
+                <li><a href="#history">History</a></li>
+                <li><a href="#settings">Settings</a></li>
+            </ul>
+        </nav>
+        
+        <main>
+            <!-- OVERVIEW -->
+            <section id="overview">
+                <h2>📋 Overview</h2>
+                
+                <p><strong>Maximus Engagimus</strong> is an AI-powered tool designed to help marketing agencies and businesses generate authentic, engaging social media comments at scale. The app uses artificial intelligence to create comments that match your brand voice and resonate with your target audience across multiple platforms.</p>
+                
+                <h3>Key Features</h3>
+                <ul>
+                    <li><strong>Multi-Platform Support:</strong> Instagram, Facebook, LinkedIn, Reddit, YouTube, TikTok, and more</li>
+                    <li><strong>AI-Powered Generation:</strong> Uses OpenAI, Anthropic, or Google AI to create natural comments</li>
+                    <li><strong>Client Management:</strong> Track multiple clients with custom keywords and sample comments</li>
+                    <li><strong>Content Analysis:</strong> Analyze posts to generate contextually relevant comments</li>
+                    <li><strong>Competitor Tracking:</strong> Monitor competitor activity and engagement opportunities</li>
+                    <li><strong>Usage History:</strong> Track all generated comments and mark which ones you've used</li>
+                    <li><strong>Offline Support:</strong> App works offline with cached data</li>
+                </ul>
+                
+                <div class="tip">
+                    <strong>💡 Tip:</strong> The app uses smart caching to load pages instantly. Your data is always available, even when switching between windows or working offline.
+                </div>
+            </section>
+            
+            <!-- GETTING STARTED -->
+            <section id="getting-started">
+                <h2>🚀 Getting Started</h2>
+                
+                <h3>1. Create an Account</h3>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Go to the login page</strong> and click "Sign Up"
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong>Enter your details:</strong> Email, Password, Full Name, and Organization Name
+                </div>
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <strong>Verify your email</strong> (if email confirmation is enabled)
+                </div>
+                <div class="step">
+                    <span class="step-number">4</span>
+                    <strong>Log in</strong> with your credentials
+                </div>
+                
+                <h3>2. Set Up Your AI Provider</h3>
+                <p>Before you can generate comments, you need to configure at least one AI provider:</p>
+                
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Navigate to Settings → AI Providers</strong>
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong>Click "Add AI Provider"</strong>
+                </div>
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <strong>Choose a provider:</strong> OpenAI, Anthropic (Claude), or Google AI
+                </div>
+                <div class="step">
+                    <span class="step-number">4</span>
+                    <strong>Enter your API key</strong> from the provider's dashboard
+                </div>
+                <div class="step">
+                    <span class="step-number">5</span>
+                    <strong>Select a model</strong> (e.g., GPT-4, Claude 3.5 Sonnet)
+                </div>
+                <div class="step">
+                    <span class="step-number">6</span>
+                    <strong>Set as default</strong> if you want to use this provider by default
+                </div>
+                
+                <div class="warning">
+                    <strong>⚠️ Important:</strong> API keys are stored securely in the database. Never share your API keys with anyone. Each AI provider charges separately for usage.
+                </div>
+                
+                <h3>3. Add Your First Client</h3>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Go to the Clients page</strong> from the sidebar
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong>Click "Add Client"</strong>
+                </div>
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <strong>Fill in client details:</strong> Name, industry, description
+                </div>
+                <div class="step">
+                    <span class="step-number">4</span>
+                    <strong>Add keywords</strong> related to the client's business
+                </div>
+                <div class="step">
+                    <span class="step-number">5</span>
+                    <strong>Add sample comments</strong> that match the client's voice
+                </div>
+                <div class="step">
+                    <span class="step-number">6</span>
+                    <strong>Save the client</strong>
+                </div>
+            </section>
+            
+            <!-- DASHBOARD -->
+            <section id="dashboard">
+                <h2>📊 Dashboard</h2>
+                
+                <p>The Dashboard gives you an at-a-glance view of your activity and statistics.</p>
+                
+                <h3>What You'll See</h3>
+                
+                <div class="feature-box">
+                    <h4>📈 Total Generations</h4>
+                    <p>The total number of times you've generated comments using the Comment Generator.</p>
+                </div>
+                
+                <div class="feature-box">
+                    <h4>💬 Total Comments</h4>
+                    <p>The total number of individual comments generated (each generation creates multiple options).</p>
+                </div>
+                
+                <div class="feature-box">
+                    <h4>✅ Comments Used</h4>
+                    <p>How many generated comments you've marked as "used" in the History page.</p>
+                </div>
+                
+                <div class="feature-box">
+                    <h4>📊 Usage Rate</h4>
+                    <p>Percentage of generated comments that you actually used (Comments Used ÷ Total Comments).</p>
+                </div>
+                
+                <h3>Additional Widgets</h3>
+                <ul>
+                    <li><strong>Recent Activity:</strong> Shows your most recent comment generations</li>
+                    <li><strong>Generations by Client:</strong> See which clients you're generating the most comments for</li>
+                    <li><strong>Generations by Platform:</strong> See which platforms you're targeting most</li>
+                </ul>
+                
+                <div class="tip">
+                    <strong>💡 Tip:</strong> The Dashboard updates automatically. All data is cached for instant loading when you switch back to the app.
+                </div>
+            </section>
+            
+            <!-- CLIENTS -->
+            <section id="clients">
+                <h2>👥 Clients</h2>
+                
+                <p>The Clients page is where you manage all your client accounts. Each client has their own profile with keywords, sample comments, and industry-specific information.</p>
+                
+                <h3>Adding a New Client</h3>
+                
+                <h4>Basic Information</h4>
+                <table>
+                    <tr>
+                        <th>Field</th>
+                        <th>Description</th>
+                        <th>Required</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Name</strong></td>
+                        <td>The client's business or brand name</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Industry</strong></td>
+                        <td>The client's industry (e.g., Real Estate, Fitness, Technology)</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Description</strong></td>
+                        <td>Brief description of the client's business and target audience</td>
+                        <td>No</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Website</strong></td>
+                        <td>Client's website URL</td>
+                        <td>No</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Brand Voice</strong></td>
+                        <td>How the brand communicates (e.g., professional, casual, friendly)</td>
+                        <td>No</td>
+                    </tr>
+                </table>
+                
+                <h4>Keywords</h4>
+                <p>Keywords help the AI understand what topics are relevant to this client. Add keywords related to:</p>
+                <ul>
+                    <li>Products or services</li>
+                    <li>Industry terminology</li>
+                    <li>Target audience interests</li>
+                    <li>Common topics in their niche</li>
+                </ul>
+                
+                <div class="tip">
+                    <strong>💡 Example Keywords for a Real Estate Client:</strong><br>
+                    real estate, home buying, property investment, mortgage, first-time homebuyer, luxury homes, market trends, open house
+                </div>
+                
+                <h4>Sample Comments</h4>
+                <p>Sample comments train the AI to match the client's voice and style. Add 3-10 examples of comments that sound like the brand.</p>
+                
+                <div class="feature-box">
+                    <h4>Example Sample Comments for a Fitness Brand:</h4>
+                    <ul>
+                        <li>"Love this! Consistency is key 💪 Keep pushing!"</li>
+                        <li>"Great form! This is exactly how we teach it at our gym."</li>
+                        <li>"This workout looks intense! What's your recovery routine?"</li>
+                    </ul>
+                </div>
+                
+                <h4>Target Platforms</h4>
+                <p>Select which social media platforms this client is active on. The AI will tailor comments for each platform's style and character limits.</p>
+                
+                <h4>Industry Websites</h4>
+                <p>Add relevant industry websites or forums where the client might want to engage (optional).</p>
+                
+                <h3>Managing Clients</h3>
+                
+                <h4>View Mode</h4>
+                <ul>
+                    <li><strong>Grid View:</strong> See clients as cards with key information</li>
+                    <li><strong>List View:</strong> See clients in a compact table format</li>
+                </ul>
+                
+                <h4>Filters</h4>
+                <ul>
+                    <li><strong>Search:</strong> Search by client name, industry, or description</li>
+                    <li><strong>Industry Filter:</strong> Show only clients in a specific industry</li>
+                    <li><strong>Status Filter:</strong> Filter by active or inactive clients</li>
+                </ul>
+                
+                <h4>Actions</h4>
+                <ul>
+                    <li><strong>Edit:</strong> Update client information</li>
+                    <li><strong>Deactivate/Activate:</strong> Temporarily disable a client without deleting them</li>
+                    <li><strong>Delete:</strong> Permanently remove a client (requires confirmation)</li>
+                    <li><strong>View Details:</strong> See full client profile with all keywords and samples</li>
+                </ul>
+                
+                <div class="tip">
+                    <strong>💡 Tip:</strong> Client data is cached locally. Changes appear instantly and sync to the database in the background.
+                </div>
+            </section>
+            
+            <!-- COMMENT GENERATOR -->
+            <section id="generator">
+                <h2>✨ Comment Generator</h2>
+                
+                <p>The Comment Generator is the core feature of Maximus Engagimus. It uses AI to create multiple comment options that match your client's voice and the post content.</p>
+                
+                <h3>How to Generate Comments</h3>
+                
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Select a Client</strong> from the dropdown menu
+                </div>
+                
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong>Choose a Platform</strong> (Instagram, Facebook, LinkedIn, etc.)
+                </div>
+                
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <strong>Paste the Post Content</strong> you want to comment on
+                </div>
+                
+                <div class="step">
+                    <span class="step-number">4</span>
+                    <strong>(Optional) Add Keywords</strong> to guide the AI (e.g., "supportive," "question," "call-to-action")
+                </div>
+                
+                <div class="step">
+                    <span class="step-number">5</span>
+                    <strong>Select AI Provider</strong> (if you have multiple configured)
+                </div>
+                
+                <div class="step">
+                    <span class="step-number">6</span>
+                    <strong>Choose Number of Options</strong> (3, 5, or 10 comment variations)
+                </div>
+                
+                <div class="step">
+                    <span class="step-number">7</span>
+                    <strong>Click "Generate Comments"</strong>
+                </div>
+                
+                <h3>Platform-Specific Generation</h3>
+                
+                <p>The AI automatically adjusts comments based on the platform:</p>
+                
+                <table>
+                    <tr>
+                        <th>Platform</th>
+                        <th>Style</th>
+                        <th>Max Length</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Instagram</strong></td>
+                        <td>Casual, emoji-friendly, short</td>
+                        <td>150 characters</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Facebook</strong></td>
+                        <td>Friendly, conversational, slightly longer</td>
+                        <td>200 characters</td>
+                    </tr>
+                    <tr>
+                        <td><strong>LinkedIn</strong></td>
+                        <td>Professional, valuable, no emojis</td>
+                        <td>200 characters</td>
+                    </tr>
+                    <tr>
+                        <td><strong>TikTok</strong></td>
+                        <td>Super casual, trendy, Gen-Z friendly</td>
+                        <td>100 characters</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Reddit</strong></td>
+                        <td>Authentic, community-focused, helpful</td>
+                        <td>300 characters</td>
+                    </tr>
+                    <tr>
+                        <td><strong>YouTube</strong></td>
+                        <td>Conversational, thoughtful</td>
+                        <td>200 characters</td>
+                    </tr>
+                </table>
+                
+                <h3>Using Generated Comments</h3>
+                
+                <p>Once comments are generated, you'll see multiple options. For each comment, you can:</p>
+                
+                <ul>
+                    <li><strong>Copy:</strong> Click the copy button to copy the comment to your clipboard</li>
+                    <li><strong>Edit:</strong> Modify the comment before using it</li>
+                    <li><strong>Regenerate:</strong> Generate new options if you're not satisfied</li>
+                </ul>
+                
+                <div class="feature-box">
+                    <h4>What Makes a Good Generated Comment?</h4>
+                    <ul>
+                        <li>✅ Sounds natural and human</li>
+                        <li>✅ Relates to the post content</li>
+                        <li>✅ Matches the client's brand voice</li>
+                        <li>✅ Appropriate length for the platform</li>
+                        <li>✅ Adds value to the conversation</li>
+                    </ul>
+                </div>
+                
+                <h3>Advanced Options</h3>
+                
+                <h4>Tone Control</h4>
+                <p>Use keywords to guide the tone:</p>
+                <ul>
+                    <li><code>supportive</code> - Encouraging and positive</li>
+                    <li><code>question</code> - Ask a relevant question</li>
+                    <li><code>informative</code> - Share helpful information</li>
+                    <li><code>humorous</code> - Add appropriate humor</li>
+                    <li><code>professional</code> - More formal tone</li>
+                </ul>
+                
+                <div class="warning">
+                    <strong>⚠️ Best Practice:</strong> Always read and approve comments before posting. AI-generated content should be reviewed for accuracy and appropriateness.
+                </div>
+            </section>
+            
+            <!-- CONTENT ANALYZER -->
+            <section id="analyzer">
+                <h2>🔍 Content Analyzer</h2>
+                
+                <p>The Content Analyzer helps you understand posts before commenting. It extracts key information and suggests relevant keywords for comment generation.</p>
+                
+                <h3>How to Use</h3>
+                
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Paste Post Content</strong> or URL into the analyzer
+                </div>
+                
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong>(Optional) Add Context</strong> about the post or author
+                </div>
+                
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <strong>Click "Analyze Content"</strong>
+                </div>
+                
+                <h3>Analysis Results</h3>
+                
+                <p>The analyzer will provide:</p>
+                
+                <div class="feature-box">
+                    <h4>📝 Content Summary</h4>
+                    <p>A brief overview of what the post is about</p>
+                </div>
+                
+                <div class="feature-box">
+                    <h4>🎯 Key Topics</h4>
+                    <p>Main themes and subjects discussed in the post</p>
+                </div>
+                
+                <div class="feature-box">
+                    <h4>😊 Sentiment</h4>
+                    <p>Whether the post is positive, negative, or neutral</p>
+                </div>
+                
+                <div class="feature-box">
+                    <h4>🔑 Suggested Keywords</h4>
+                    <p>Relevant keywords you can use in the Comment Generator</p>
+                </div>
+                
+                <div class="feature-box">
+                    <h4>💡 Engagement Opportunities</h4>
+                    <p>Suggestions for how to engage meaningfully</p>
+                </div>
+                
+                <h3>Using Analysis Results</h3>
+                
+                <p>After analyzing content:</p>
+                <ul>
+                    <li><strong>Select Suggested Keywords:</strong> Click keywords to add them to your generation</li>
+                    <li><strong>Jump to Generator:</strong> Click "Generate Comments" to go directly to the generator with pre-filled keywords</li>
+                    <li><strong>Save Analysis:</strong> Results are automatically saved to your history</li>
+                </ul>
+                
+                <div class="tip">
+                    <strong>💡 Pro Tip:</strong> Use the Analyzer when you're unsure how to respond to a post. It helps you understand the context and find the right angle for engagement.
+                </div>
+            </section>
+            
+            <!-- COMPETITOR TRACKING -->
+            <section id="competitors">
+                <h2>🎯 Competitor Tracking</h2>
+                
+                <p>Track competitor activity and identify engagement opportunities in your industry.</p>
+                
+                <h3>Adding Competitors</h3>
+                
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Click "Add Competitor"</strong>
+                </div>
+                
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong>Enter Competitor Information:</strong>
+                    <ul>
+                        <li>Business name</li>
+                        <li>Industry</li>
+                        <li>Website</li>
+                        <li>Social media profiles</li>
+                    </ul>
+                </div>
+                
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <strong>Select Platforms to Monitor</strong>
+                </div>
+                
+                <div class="step">
+                    <span class="step-number">4</span>
+                    <strong>Save</strong>
+                </div>
+                
+                <h3>Logging Competitor Sightings</h3>
+                
+                <p>When you spot competitor activity:</p>
+                
+                <ul>
+                    <li><strong>Add a Sighting:</strong> Record where you saw them (platform, URL, date)</li>
+                    <li><strong>Note Their Strategy:</strong> What type of content or engagement?</li>
+                    <li><strong>Engagement Opportunity:</strong> Is there a chance to join the conversation?</li>
+                    <li><strong>Add Screenshots:</strong> Upload images for reference</li>
+                </ul>
+                
+                <h3>Competitor Reports</h3>
+                
+                <ul>
+                    <li><strong>Activity Timeline:</strong> See when and where competitors are active</li>
+                    <li><strong>Platform Breakdown:</strong> Which platforms they focus on</li>
+                    <li><strong>Engagement Patterns:</strong> What types of posts they comment on</li>
+                    <li><strong>Opportunity Alerts:</strong> When competitors are in conversations relevant to your clients</li>
+                </ul>
+                
+                <div class="tip">
+                    <strong>💡 Strategy Tip:</strong> Use competitor sightings to find new places where your clients should be engaging. If competitors are active in certain communities, your clients should be there too.
+                </div>
+            </section>
+            
+            <!-- HISTORY -->
+            <section id="history">
+                <h2>📜 History</h2>
+                
+                <p>The History page shows all your past comment generations. Track what you've created, what you've used, and measure your effectiveness.</p>
+                
+                <h3>Viewing History</h3>
+                
+                <h4>Filters</h4>
+                <ul>
+                    <li><strong>By Client:</strong> Show only generations for a specific client</li>
+                    <li><strong>By Platform:</strong> Filter by social media platform</li>
+                    <li><strong>By Date:</strong> See generations from specific time periods</li>
+                    <li><strong>By Status:</strong> Show used vs. unused comments</li>
+                </ul>
+                
+                <h3>History Entries</h3>
+                
+                <p>Each history entry shows:</p>
+                <ul>
+                    <li><strong>Generated Comments:</strong> All options that were created</li>
+                    <li><strong>Post Content:</strong> The original post you were responding to</li>
+                    <li><strong>Client & Platform:</strong> Who it was for and where</li>
+                    <li><strong>Timestamp:</strong> When it was generated</li>
+                    <li><strong>AI Provider & Model:</strong> Which AI service was used</li>
+                </ul>
+                
+                <h3>Marking Comments as Used</h3>
+                
+                <p>When you actually post a generated comment:</p>
+                
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Find the comment in History</strong>
+                </div>
+                
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong>Click "Mark as Used"</strong> on the specific comment
+                </div>
+                
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <strong>(Optional) Add the post URL</strong> where you used it
+                </div>
+                
+                <p>This helps you track:</p>
+                <ul>
+                    <li>Your usage rate (how many generated comments you actually use)</li>
+                    <li>Which types of comments work best</li>
+                    <li>Which clients you're most active with</li>
+                </ul>
+                
+                <h3>Exporting History</h3>
+                
+                <p>Export your history as CSV for reporting or analysis:</p>
+                <ul>
+                    <li>All generations</li>
+                    <li>Usage statistics</li>
+                    <li>Client-specific reports</li>
+                    <li>Platform performance</li>
+                </ul>
+                
+                <div class="warning">
+                    <strong>⚠️ Privacy Note:</strong> History data includes AI-generated content. Be mindful when exporting or sharing reports that may contain sensitive client information.
+                </div>
+            </section>
+            
+            <!-- SETTINGS -->
+            <section id="settings">
+                <h2>⚙️ Settings</h2>
+                
+                <h3>Profile Settings</h3>
+                
+                <h4>Personal Information</h4>
+                <ul>
+                    <li><strong>Full Name:</strong> Your display name</li>
+                    <li><strong>Email:</strong> Your login email (cannot be changed)</li>
+                    <li><strong>Avatar:</strong> Upload a profile picture</li>
+                </ul>
+                
+                <h4>Password</h4>
+                <ul>
+                    <li>Change your password</li>
+                    <li>Requires current password for security</li>
+                    <li>Must be at least 8 characters</li>
+                </ul>
+                
+                <h3>Organization Settings</h3>
+                
+                <h4>Organization Details</h4>
+                <ul>
+                    <li><strong>Name:</strong> Your company/agency name</li>
+                    <li><strong>Slug:</strong> Unique identifier for your organization</li>
+                    <li><strong>Logo:</strong> Company logo</li>
+                </ul>
+                
+                <h4>Team Management</h4>
+                <ul>
+                    <li><strong>Invite Users:</strong> Add team members to your organization</li>
+                    <li><strong>Role Assignment:</strong> Set user roles (Owner, Admin, Member)</li>
+                    <li><strong>Remove Users:</strong> Remove team members</li>
+                </ul>
+                
+                <table>
+                    <tr>
+                        <th>Role</th>
+                        <th>Permissions</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Owner</strong></td>
+                        <td>Full access, can delete organization, manage billing</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Admin</strong></td>
+                        <td>Manage clients, users, and settings</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Member</strong></td>
+                        <td>Generate comments, view history, manage assigned clients</td>
+                    </tr>
+                </table>
+                
+                <h3>AI Provider Settings</h3>
+                
+                <h4>Managing AI Providers</h4>
+                
+                <p>You can configure multiple AI providers and switch between them:</p>
+                
+                <div class="feature-box">
+                    <h4>OpenAI (GPT)</h4>
+                    <ul>
+                        <li><strong>Models:</strong> GPT-4, GPT-4 Turbo, GPT-3.5 Turbo</li>
+                        <li><strong>Best For:</strong> General-purpose, creative comments</li>
+                        <li><strong>Cost:</strong> Moderate</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-box">
+                    <h4>Anthropic (Claude)</h4>
+                    <ul>
+                        <li><strong>Models:</strong> Claude 3.5 Sonnet, Claude 3 Opus, Claude 3 Haiku</li>
+                        <li><strong>Best For:</strong> Professional, thoughtful comments</li>
+                        <li><strong>Cost:</strong> Moderate to High</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-box">
+                    <h4>Google AI (Gemini)</h4>
+                    <ul>
+                        <li><strong>Models:</strong> Gemini 1.5 Pro, Gemini 1.5 Flash</li>
+                        <li><strong>Best For:</strong> Fast generation, cost-effective</li>
+                        <li><strong>Cost:</strong> Low to Moderate</li>
+                    </ul>
+                </div>
+                
+                <h4>API Key Setup</h4>
+                
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Get your API key</strong> from the provider's website:
+                    <ul>
+                        <li>OpenAI: platform.openai.com/api-keys</li>
+                        <li>Anthropic: console.anthropic.com/settings/keys</li>
+                        <li>Google AI: makersuite.google.com/app/apikey</li>
+                    </ul>
+                </div>
+                
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong>In Maximus Engagimus,</strong> go to Settings → AI Providers
+                </div>
+                
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <strong>Click "Add AI Provider"</strong>
+                </div>
+                
+                <div class="step">
+                    <span class="step-number">4</span>
+                    <strong>Enter:</strong>
+                    <ul>
+                        <li>Provider name (for your reference)</li>
+                        <li>Select provider type</li>
+                        <li>Paste API key</li>
+                        <li>Select model</li>
+                    </ul>
+                </div>
+                
+                <div class="step">
+                    <span class="step-number">5</span>
+                    <strong>Test Connection</strong> to verify the API key works
+                </div>
+                
+                <div class="step">
+                    <span class="step-number">6</span>
+                    <strong>Set as Default</strong> if desired
+                </div>
+                
+                <div class="warning">
+                    <strong>⚠️ Security:</strong> API keys are encrypted and stored securely. Only you and your organization can access them. Never share API keys outside your organization.
+                </div>
+                
+                <h3>Appearance Settings</h3>
+                
+                <ul>
+                    <li><strong>Theme:</strong> Light or Dark mode</li>
+                    <li><strong>Sidebar:</strong> Expanded or collapsed by default</li>
+                    <li><strong>Notifications:</strong> Enable/disable toast notifications</li>
+                </ul>
+            </section>
+            
+            <!-- TIPS & TRICKS -->
+            <section id="tips">
+                <h2>💡 Tips & Best Practices</h2>
+                
+                <h3>For Better Comment Generation</h3>
+                
+                <div class="tip">
+                    <strong>1. Quality Sample Comments</strong><br>
+                    The better your sample comments, the better the AI's output. Include varied examples showing different tones and situations.
+                </div>
+                
+                <div class="tip">
+                    <strong>2. Specific Keywords</strong><br>
+                    Use specific keywords in your client profiles. "Real estate investment strategies" is better than just "real estate."
+                </div>
+                
+                <div class="tip">
+                    <strong>3. Platform Context</strong><br>
+                    Let the AI know the platform. LinkedIn comments should differ from Instagram comments, even for the same client.
+                </div>
+                
+                <div class="tip">
+                    <strong>4. Generate Multiple Options</strong><br>
+                    Always generate at least 5 options. This gives you variety and helps you find the best fit.
+                </div>
+                
+                <div class="tip">
+                    <strong>5. Edit Before Posting</strong><br>
+                    AI-generated comments are a starting point. Add your human touch before posting.
+                </div>
+                
+                <h3>Workflow Optimization</h3>
+                
+                <div class="feature-box">
+                    <h4>Efficient Comment Generation Workflow</h4>
+                    <ol>
+                        <li>Set up clients with detailed profiles (keywords, samples, voice)</li>
+                        <li>Use Content Analyzer for posts you're unsure about</li>
+                        <li>Generate 5-10 comment options</li>
+                        <li>Copy your favorite, edit as needed</li>
+                        <li>Post the comment</li>
+                        <li>Mark it as "used" in History for tracking</li>
+                        <li>Review your stats weekly to improve your strategy</li>
+                    </ol>
+                </div>
+                
+                <h3>Cost Management</h3>
+                
+                <ul>
+                    <li><strong>Use Cheaper Models for Testing:</strong> GPT-3.5 Turbo or Gemini Flash for experimentation</li>
+                    <li><strong>Generate Less Options:</strong> Start with 3-5 options instead of 10</li>
+                    <li><strong>Reuse Successful Comments:</strong> Keep a swipe file of comments that work well</li>
+                    <li><strong>Batch Generation:</strong> Generate comments for multiple posts at once</li>
+                </ul>
+                
+                <h3>Engagement Strategy</h3>
+                
+                <div class="feature-box">
+                    <h4>When to Use Each Platform</h4>
+                    <ul>
+                        <li><strong>LinkedIn:</strong> Professional thought leadership, industry insights</li>
+                        <li><strong>Instagram:</strong> Visual content, lifestyle, brand personality</li>
+                        <li><strong>Facebook:</strong> Community building, customer service</li>
+                        <li><strong>TikTok:</strong> Trends, entertainment, younger demographics</li>
+                        <li><strong>Reddit:</strong> Deep expertise, community support</li>
+                        <li><strong>YouTube:</strong> Educational content, how-tos</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- TROUBLESHOOTING -->
+            <section id="troubleshooting">
+                <h2>🔧 Troubleshooting</h2>
+                
+                <h3>Common Issues</h3>
+                
+                <div class="feature-box">
+                    <h4>❌ "AI Provider Error" or "Generation Failed"</h4>
+                    <p><strong>Possible Causes:</strong></p>
+                    <ul>
+                        <li>Invalid API key</li>
+                        <li>API quota exceeded</li>
+                        <li>Network timeout</li>
+                    </ul>
+                    <p><strong>Solutions:</strong></p>
+                    <ul>
+                        <li>Check your API key in Settings → AI Providers</li>
+                        <li>Verify you have credits/quota with your AI provider</li>
+                        <li>Try a different AI provider</li>
+                        <li>Wait a moment and try again</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-box">
+                    <h4>⏱️ "Request Timed Out"</h4>
+                    <p><strong>What This Means:</strong></p>
+                    <p>The app waited 2 seconds for data but didn't receive it.</p>
+                    <p><strong>Why It Happens:</strong></p>
+                    <ul>
+                        <li>Slow internet connection</li>
+                        <li>Server is busy</li>
+                        <li>First load after inactivity (cold start)</li>
+                    </ul>
+                    <p><strong>What the App Does:</strong></p>
+                    <ul>
+                        <li>Shows you cached data (if available)</li>
+                        <li>Retries in background</li>
+                        <li>Updates when data arrives</li>
+                    </ul>
+                    <p><strong>What You Should Do:</strong></p>
+                    <ul>
+                        <li>Nothing! The app handles it automatically</li>
+                        <li>If it persists, check your internet connection</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-box">
+                    <h4>📱 Page Loads Slowly After Switching Windows</h4>
+                    <p><strong>Expected Behavior:</strong></p>
+                    <p>With the optimizations in place, pages should load instantly from cache. If you experience delays:</p>
+                    <ul>
+                        <li>Clear your browser cache (Ctrl+Shift+Delete)</li>
+                        <li>Ensure JavaScript is enabled</li>
+                        <li>Check browser console for errors (F12)</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-box">
+                    <h4>👤 Profile Shows Wrong Initials</h4>
+                    <p>If your avatar shows the wrong letters (e.g., "T" instead of "TU"):</p>
+                    <ul>
+                        <li>This was a known issue that has been fixed</li>
+                        <li>Refresh the page (F5)</li>
+                        <li>Clear cache if it persists</li>
+                    </ul>
+                </div>
+                
+                <h3>Getting Help</h3>
+                
+                <ul>
+                    <li><strong>Check Browser Console:</strong> Press F12 to see detailed error messages</li>
+                    <li><strong>Contact Support:</strong> Email your organization owner or admin</li>
+                    <li><strong>Provide Details:</strong> Include what you were doing, error messages, and browser/device info</li>
+                </ul>
+            </section>
+            
+            <!-- KEYBOARD SHORTCUTS -->
+            <section id="shortcuts">
+                <h2>⌨️ Keyboard Shortcuts</h2>
+                
+                <table>
+                    <tr>
+                        <th>Action</th>
+                        <th>Shortcut</th>
+                    </tr>
+                    <tr>
+                        <td>Open Dashboard</td>
+                        <td><code>Alt + D</code></td>
+                    </tr>
+                    <tr>
+                        <td>Open Clients</td>
+                        <td><code>Alt + C</code></td>
+                    </tr>
+                    <tr>
+                        <td>Open Generator</td>
+                        <td><code>Alt + G</code></td>
+                    </tr>
+                    <tr>
+                        <td>Open History</td>
+                        <td><code>Alt + H</code></td>
+                    </tr>
+                    <tr>
+                        <td>Open Settings</td>
+                        <td><code>Alt + S</code></td>
+                    </tr>
+                    <tr>
+                        <td>Search (when available)</td>
+                        <td><code>Ctrl + K</code> or <code>/</code></td>
+                    </tr>
+                    <tr>
+                        <td>Close Modal/Dialog</td>
+                        <td><code>Esc</code></td>
+                    </tr>
+                    <tr>
+                        <td>Toggle Theme</td>
+                        <td><code>Alt + T</code></td>
+                    </tr>
+                </table>
+            </section>
+            
+            <!-- FAQ -->
+            <section id="faq">
+                <h2>❓ Frequently Asked Questions</h2>
+                
+                <h3>General</h3>
+                
+                <div class="feature-box">
+                    <h4>Q: Is Maximus Engagimus free?</h4>
+                    <p><strong>A:</strong> The app itself may be free, but you need to pay for AI provider API usage separately. Check with OpenAI, Anthropic, or Google AI for their pricing.</p>
+                </div>
+                
+                <div class="feature-box">
+                    <h4>Q: How many comments can I generate?</h4>
+                    <p><strong>A:</strong> There's no limit in the app. Your only limit is your AI provider's quota and your budget.</p>
+                </div>
+                
+                <div class="feature-box">
+                    <h4>Q: Can multiple people use the same account?</h4>
+                    <p><strong>A:</strong> Yes! Invite team members through Settings → Organization. Each person gets their own login.</p>
+                </div>
+                
+                <h3>AI & Generation</h3>
+                
+                <div class="feature-box">
+                    <h4>Q: Which AI provider is best?</h4>
+                    <p><strong>A:</strong> It depends on your needs:</p>
+                    <ul>
+                        <li><strong>GPT-4:</strong> Most creative, best for diverse content</li>
+                        <li><strong>Claude 3.5 Sonnet:</strong> Best for professional, thoughtful comments</li>
+                        <li><strong>Gemini Flash:</strong> Fastest and most cost-effective</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-box">
+                    <h4>Q: Can I use multiple AI providers?</h4>
+                    <p><strong>A:</strong> Yes! Configure multiple providers and switch between them based on your needs.</p>
+                </div>
+                
+                <div class="feature-box">
+                    <h4>Q: Are the comments unique?</h4>
+                    <p><strong>A:</strong> Yes, each generation creates new, unique comments. The AI doesn't repeat itself.</p>
+                </div>
+                
+                <h3>Privacy & Security</h3>
+                
+                <div class="feature-box">
+                    <h4>Q: Is my data secure?</h4>
+                    <p><strong>A:</strong> Yes. All data is stored in a secure database with encryption. API keys are encrypted separately.</p>
+                </div>
+                
+                <div class="feature-box">
+                    <h4>Q: Who can see my clients and comments?</h4>
+                    <p><strong>A:</strong> Only users in your organization. Each organization's data is completely isolated.</p>
+                </div>
+                
+                <div class="feature-box">
+                    <h4>Q: Do AI providers store my data?</h4>
+                    <p><strong>A:</strong> Check each provider's privacy policy. Generally:
+                        <ul>
+                            <li>OpenAI: Data retained for 30 days, not used for training</li>
+                            <li>Anthropic: Data not used for training</li>
+                            <li>Google AI: Check their current policy</li>
+                        </ul>
+                    </p>
+                </div>
+                
+                <h3>Technical</h3>
+                
+                <div class="feature-box">
+                    <h4>Q: Does the app work offline?</h4>
+                    <p><strong>A:</strong> Partially. You can view cached data (clients, history, etc.) offline, but you can't generate new comments without an internet connection.</p>
+                </div>
+                
+                <div class="feature-box">
+                    <h4>Q: What browsers are supported?</h4>
+                    <p><strong>A:</strong> Chrome, Firefox, Safari, and Edge (latest versions). Internet Explorer is not supported.</p>
+                </div>
+                
+                <div class="feature-box">
+                    <h4>Q: Can I export my data?</h4>
+                    <p><strong>A:</strong> Yes, you can export your history as CSV. Contact support for full data export.</p>
+                </div>
+            </section>
+        </main>
+        
+        <footer>
+            <p><strong>Maximus Engagimus</strong> - AI-Powered Social Media Engagement</p>
+            <p style="margin-top: 0.5rem; opacity: 0.8;">Version 1.0 | Last Updated: February 2026</p>
+            <p style="margin-top: 1rem; font-size: 0.9rem;">For support or questions, contact your organization administrator.</p>
+        </footer>
+    </div>
+</body>
+</html>
